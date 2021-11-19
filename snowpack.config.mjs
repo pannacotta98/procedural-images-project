@@ -1,3 +1,5 @@
+import glslify from 'snowpack-plugin-glslify';
+
 /** @type {import("snowpack").SnowpackUserConfig } */
 export default {
   mount: {
@@ -12,6 +14,7 @@ export default {
         ...(process.versions.pnp ? { tsc: 'yarn pnpify tsc' } : {}),
       },
     ],
+    ['snowpack-plugin-glslify', { compress: false }],
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
