@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import { defaultConfig } from './config';
 import testFrag from './shaders/testFrag.glsl';
 import testVert from './shaders/testVert.glsl';
+import { addSlider } from './gui';
+
 // // Option 2: Import just the parts you need.
 // import { Scene } from 'three';
 // const scene = new Scene();
@@ -43,7 +45,31 @@ const animate = function (time?: number) {
   cube.rotation.x += defaultConfig.test.speed;
   cube.rotation.y += defaultConfig.test.speed;
 
+  camera.zoom = defaultConfig.test.zoom;
+  camera.updateProjectionMatrix();
+
   renderer.render(scene, camera);
 };
 
 animate();
+
+addSlider({
+  parentId: 'camera-setting',
+  value: defaultConfig.test.speed,
+  label: 'Testing speed',
+  min: 0,
+  max: 0.1,
+  onChange: (newVal) => (defaultConfig.test.speed = newVal),
+});
+
+addSlider({
+  parentId: 'camera-setting',
+  value: defaultConfig.test.zoom,
+  label: 'Zoom',
+  min: 0.5,
+  max: 5,
+  onChange: (newVal) => (defaultConfig.test.zoom = newVal),
+});
+
+// TODO
+// How does frustum culling work?
