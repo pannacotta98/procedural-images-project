@@ -22,49 +22,50 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.BoxGeometry();
-// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
 const material = new THREE.ShaderMaterial({
   uniforms: {
-    time: { value: 1.0 }, // TODO Fix time
+    time: { value: 0.0 }, // TODO Fix time; now works but is it done correctly?
     resolution: { value: new THREE.Vector2() }, // TODO Also fix
   },
   vertexShader: testVert,
   fragmentShader: testFrag,
+  wireframe: true,
 });
 
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+console.log(material.extensions);
 
+// const geometry = new THREE.BoxGeometry();
+// const cube = new THREE.Mesh(geometry, material);
+// scene.add(cube);
+
+const geometry = new THREE.SphereGeometry(1, 100, 100);
+// const geometry = new THREE.SphereGeometry(1, 10, 10);
+const sphere = new THREE.Mesh(geometry, material);
+scene.add(sphere);
+
+// NOTE Right cllick to pan
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.autoRotate = true;
 controls.enableDamping = true;
 controls.minDistance = 1;
 controls.maxDistance = 10;
-camera.position.z = 5;
+camera.position.z = 3;
 
 controls.update();
 
 const animate = function (time?: number) {
-  // TODO Make sure to use time to calculate delta time
+  // NOTE Make sure to use time to calculate delta time if using time
   requestAnimationFrame(animate);
-
-  // cube.rotation.x += defaultConfig.test.speed;
-  // cube.rotation.y += defaultConfig.test.speed;
-
-  // camera.zoom = defaultConfig.test.zoom;
-  // camera.updateProjectionMatrix();
-
   // required if controls.enableDamping or controls.autoRotate are set to true
   controls.update();
-
+  material.uniforms.time.value = clock.getElapsedTime();
   renderer.render(scene, camera);
 };
 
+const clock = new THREE.Clock();
+clock.start();
 animate();
 
-console.log(OrbitControls);
 window.addEventListener('resize', onWindowResize);
 
 // addSlider({
