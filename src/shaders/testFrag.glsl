@@ -4,11 +4,12 @@ uniform vec2 resolution;
 in vec3 outPosition;
 in vec3 outNormal;
 in vec3 fragPos;
+in vec2 uvInterpolated;
 
 // Some hard coded values that are very much subject to change
 // eventually
 // vec3 lightPos = vec3(3.0, 2.0, 6.0);
-vec3 lightPos = vec3(3.0, 2.0, 1.0);
+vec3 lightPos = 10.0 * vec3(3.0, 2.0, 1.0);
 // vec3 lightPos = vec3(6.0, 0.0, 0.0);
 vec3 lightColor = vec3(1.0, 1.0, 1.0);
 vec3 objColor = vec3(0.25, 0.65, 0.91);
@@ -43,13 +44,15 @@ void main() {
   // Calculate the normal here since the vertices are modified in vertex shader
   // but the normals are not and cannot be modified in geometry shader since
   // it does not exist in WebGL
-  //vec3 normal = normalize(cross(dFdx(outPosition), dFdy(outPosition)));
+  vec3 normal = normalize(cross(dFdx(outPosition), dFdy(outPosition)));
 
   vec3 result = (ambient() + diffuse(outNormal)) * objColor;
   // result *= sin(time);
-  gl_FragColor = vec4(result, 1.0);
+  // gl_FragColor = vec4(result, 1.0);
 
-  // gl_FragColor = vec4(outNormal, 1.0);
+  gl_FragColor = vec4(0.5 * outNormal + 0.5, 1.0);
+
+  // gl_FragColor = vec4(uvInterpolated, 0.0, 1.0);
 
   // gl_FragColor = vec4(fwidth(outPosition), 1.0);
 

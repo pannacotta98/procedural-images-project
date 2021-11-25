@@ -34,13 +34,14 @@ const material = new THREE.ShaderMaterial({
 
 console.log(material.extensions);
 
-const geometry = new THREE.SphereGeometry(1, 100, 100);
+// const geometry = new THREE.SphereGeometry(1, 100, 100);
+const geometry = new THREE.IcosahedronGeometry(1, 30);
 const sphere = new THREE.Mesh(geometry, material);
 scene.add(sphere);
 
 // NOTE Right cllick to pan
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.autoRotate = true;
+// controls.autoRotate = true;
 controls.enableDamping = true;
 controls.minDistance = 1;
 controls.maxDistance = 10;

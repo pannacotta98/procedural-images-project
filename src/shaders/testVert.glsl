@@ -5,6 +5,7 @@ out vec3 outPosition;
 out vec3 outNormal;
 out vec3 fragPos;
 out float radialOffset;
+out vec2 uvInterpolated;
 
 // Uniforms and attributes added by three.js
 // https://threejs.org/docs/#api/en/renderers/webgl/WebGLProgram
@@ -49,10 +50,32 @@ float noise(vec3 p) {
 
 float sampleHeight(vec3 pos) {
   float heightOffset = noise(5.0 * pos);
-  return 0.1 * heightOffset;
+  return heightOffset;
 }
 
+// void main() {
+//   uvInterpolated = uv;
+
+//   // Sample the noise in multiple positions for finite differencing
+//   float stepSize = 0.01;
+//   float dphi = 
+
+//   //h = normal;
+//   // outNormal = normalMatrix * normalize(position - h);
+//   outNormal = normalize(position - h);
+//   // outNormal = normalMatrix * normalize(h);
+
+//   // outNormal = 
+//   // outNormal = normal;
+
+//   // outNormal = normalMatrix * normal;
+
+//   fragPos = vec3(modelViewMatrix * vec4(position, 1.0));
+//   gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);
+// }
+
 void main() {
+  uvInterpolated = uv;
   // radialOffset = 0.1 * noise(5.0 * position);
   // radialOffset += 0.05 * noise(50.0 * position);
 
@@ -70,14 +93,26 @@ void main() {
   float dx = (sampleHeight(position + stepSize * vec3(1.0, 0.0, 0.0)), sampleHeight(position - stepSize * vec3(1.0, 0.0, 0.0))) / (2.0 * stepSize);
   float dy = (sampleHeight(position + stepSize * vec3(0.0, 1.0, 0.0)), sampleHeight(position - stepSize * vec3(0.0, 1.0, 0.0))) / (2.0 * stepSize);
   float dz = (sampleHeight(position + stepSize * vec3(1.0, 0.0, 1.0)), sampleHeight(position - stepSize * vec3(1.0, 0.0, 1.0))) / (2.0 * stepSize);
-  vec3 gradient = vec3(dx, dy, dz);
+  vec3 g = vec3(dx, dy, dz) / (radialOffset);
 
   // https://math.stackexchange.com/questions/1071662/surface-normal-to-point-on-displaced-sphere
-  vec3 h = gradient - dot(gradient, position) * position;
-  // outNormal = normalMatrix * normal + gradient;
-  outNormal = vec3(viewMatrix * vec4(normalize(h), 1.0));
+  // project away the radial component of the gradient, assuming ||position|| = 1
+  // vec3 h = gradient - dot(gradient, position) * position;
+
+  // /* TESTING */ gradient /= length(position) + radialOffset;
+  vec3 h = g - dot(g, normal) * normal;
+
+  //h = normal;
+  // outNormal = normalMatrix * normalize(position - h);
+  outNormal = normalize(position - h);
+  // outNormal = 0.1 * gradient;
+  // outNormal = normalMatrix * normalize(h);
+
+  // outNormal = 
+  // outNormal = normal;
 
   // outNormal = normalMatrix * normal;
+
   fragPos = vec3(modelViewMatrix * vec4(position, 1.0));
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);
 }
