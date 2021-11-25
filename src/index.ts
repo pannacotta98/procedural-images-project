@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import { defaultConfig } from './config';
 import testFrag from './shaders/testFrag.glsl';
 import testVert from './shaders/testVert.glsl';
+import starsFrag from './shaders/starsFrag.glsl';
+import starsVert from './shaders/starsVert.glsl';
 import { addSlider } from './gui';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
@@ -32,8 +34,6 @@ const material = new THREE.ShaderMaterial({
   // wireframe: true,
 });
 
-console.log(material.extensions);
-
 // const geometry = new THREE.SphereGeometry(1, 100, 100);
 const geometry = new THREE.IcosahedronGeometry(1, 30);
 const sphere = new THREE.Mesh(geometry, material);
@@ -48,6 +48,28 @@ controls.maxDistance = 10;
 camera.position.z = 3;
 
 controls.update();
+
+// Staaaars
+const sky = (function () {
+  const geometry = new THREE.IcosahedronGeometry(30, 1);
+  // const geometry = new THREE.BoxGeometry(100, 100, 100);
+  // const material = new THREE.MeshBasicMaterial({
+  //   color: '#9f6f1f',
+  //   side: THREE.BackSide,
+  // });
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      time: { value: 0.0 }, // TODO Fix time; now works but is it done correctly?
+      resolution: { value: new THREE.Vector2() }, // TODO Also fix
+    },
+    vertexShader: starsVert,
+    fragmentShader: starsFrag,
+    side: THREE.BackSide,
+    // wireframe: true,
+  });
+  return new THREE.Mesh(geometry, material);
+})();
+scene.add(sky);
 
 const animate = function (time?: number) {
   // NOTE Make sure to use time to calculate delta time if using time
