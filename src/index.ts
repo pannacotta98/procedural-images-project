@@ -29,17 +29,12 @@ const material = new THREE.ShaderMaterial({
   },
   vertexShader: testVert,
   fragmentShader: testFrag,
-  wireframe: true,
+  // wireframe: true,
 });
 
 console.log(material.extensions);
 
-// const geometry = new THREE.BoxGeometry();
-// const cube = new THREE.Mesh(geometry, material);
-// scene.add(cube);
-
 const geometry = new THREE.SphereGeometry(1, 100, 100);
-// const geometry = new THREE.SphereGeometry(1, 10, 10);
 const sphere = new THREE.Mesh(geometry, material);
 scene.add(sphere);
 

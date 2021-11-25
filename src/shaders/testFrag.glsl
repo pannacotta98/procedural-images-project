@@ -43,11 +43,13 @@ void main() {
   // Calculate the normal here since the vertices are modified in vertex shader
   // but the normals are not and cannot be modified in geometry shader since
   // it does not exist in WebGL
-  vec3 normal = normalize(cross(dFdx(outPosition), dFdy(outPosition)));
+  //vec3 normal = normalize(cross(dFdx(outPosition), dFdy(outPosition)));
 
   vec3 result = (ambient() + diffuse(outNormal)) * objColor;
   // result *= sin(time);
   gl_FragColor = vec4(result, 1.0);
+
+  // gl_FragColor = vec4(outNormal, 1.0);
 
   // gl_FragColor = vec4(fwidth(outPosition), 1.0);
 

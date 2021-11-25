@@ -47,9 +47,14 @@ float noise(vec3 p) {
   return o4.y * d.y + o4.x * (1.0 - d.y);
 }
 
+float sampleHeight(vec3 pos) {
+  float heightOffset = noise(5.0 * pos);
+  return 0.1 * heightOffset;
+}
+
 void main() {
-  radialOffset = 0.1 * noise(5.0 * position);
-  radialOffset += 0.05 * noise(50.0 * position);
+  // radialOffset = 0.1 * noise(5.0 * position);
+  // radialOffset += 0.05 * noise(50.0 * position);
 
   // TODO I will probably need to calculate the normals somehow, but how!?
   // I can't access neighbors here..
@@ -59,7 +64,20 @@ void main() {
 
   // vec3 radialOffset = radialDir * sin(sin(time) * 0.1 * position);
 
-  outNormal = normalMatrix * normal;
+  // Sample the noise in multiple positions for finite differencing
+  float stepSize = 0.01;
+  float radialOffset = sampleHeight(position);
+  float dx = (sampleHeight(position + stepSize * vec3(1.0, 0.0, 0.0)), sampleHeight(position - stepSize * vec3(1.0, 0.0, 0.0))) / (2.0 * stepSize);
+  float dy = (sampleHeight(position + stepSize * vec3(0.0, 1.0, 0.0)), sampleHeight(position - stepSize * vec3(0.0, 1.0, 0.0))) / (2.0 * stepSize);
+  float dz = (sampleHeight(position + stepSize * vec3(1.0, 0.0, 1.0)), sampleHeight(position - stepSize * vec3(1.0, 0.0, 1.0))) / (2.0 * stepSize);
+  vec3 gradient = vec3(dx, dy, dz);
+
+  // https://math.stackexchange.com/questions/1071662/surface-normal-to-point-on-displaced-sphere
+  vec3 h = gradient - dot(gradient, position) * position;
+  // outNormal = normalMatrix * normal + gradient;
+  outNormal = vec3(viewMatrix * vec4(normalize(h), 1.0));
+
+  // outNormal = normalMatrix * normal;
   fragPos = vec3(modelViewMatrix * vec4(position, 1.0));
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);
 }
