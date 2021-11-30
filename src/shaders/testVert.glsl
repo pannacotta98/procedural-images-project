@@ -50,68 +50,29 @@ float noise(vec3 p) {
 
 float sampleHeight(vec3 pos) {
   float heightOffset = noise(5.0 * pos);
-  return heightOffset;
+  return 0.1 * heightOffset;
 }
-
-// void main() {
-//   uvInterpolated = uv;
-
-//   // Sample the noise in multiple positions for finite differencing
-//   float stepSize = 0.01;
-//   float dphi = 
-
-//   //h = normal;
-//   // outNormal = normalMatrix * normalize(position - h);
-//   outNormal = normalize(position - h);
-//   // outNormal = normalMatrix * normalize(h);
-
-//   // outNormal = 
-//   // outNormal = normal;
-
-//   // outNormal = normalMatrix * normal;
-
-//   fragPos = vec3(modelViewMatrix * vec4(position, 1.0));
-//   gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);
-// }
 
 void main() {
   uvInterpolated = uv;
-  // radialOffset = 0.1 * noise(5.0 * position);
-  // radialOffset += 0.05 * noise(50.0 * position);
 
-  // TODO I will probably need to calculate the normals somehow, but how!?
-  // I can't access neighbors here..
-
-  // Could this be used? https://discourse.threejs.org/t/calculating-vertex-normals-after-displacement-in-the-vertex-shader/16989
-  // Maybe i could use finite differences from the noise? just sample it a few times?
-
-  // vec3 radialOffset = radialDir * sin(sin(time) * 0.1 * position);
-
-  // Sample the noise in multiple positions for finite differencing
-  float stepSize = 0.01;
   float radialOffset = sampleHeight(position);
-  float dx = (sampleHeight(position + stepSize * vec3(1.0, 0.0, 0.0)), sampleHeight(position - stepSize * vec3(1.0, 0.0, 0.0))) / (2.0 * stepSize);
-  float dy = (sampleHeight(position + stepSize * vec3(0.0, 1.0, 0.0)), sampleHeight(position - stepSize * vec3(0.0, 1.0, 0.0))) / (2.0 * stepSize);
-  float dz = (sampleHeight(position + stepSize * vec3(1.0, 0.0, 1.0)), sampleHeight(position - stepSize * vec3(1.0, 0.0, 1.0))) / (2.0 * stepSize);
-  vec3 g = vec3(dx, dy, dz) / (radialOffset);
 
-  // https://math.stackexchange.com/questions/1071662/surface-normal-to-point-on-displaced-sphere
-  // project away the radial component of the gradient, assuming ||position|| = 1
-  // vec3 h = gradient - dot(gradient, position) * position;
-
-  // /* TESTING */ gradient /= length(position) + radialOffset;
-  vec3 h = g - dot(g, normal) * normal;
-
-  //h = normal;
-  // outNormal = normalMatrix * normalize(position - h);
-  outNormal = normalize(position - h);
-  // outNormal = 0.1 * gradient;
-  // outNormal = normalMatrix * normalize(h);
-
-  // outNormal = 
-  // outNormal = normal;
-
-  // outNormal = normalMatrix * normal;
+  // Sample height near the point to calculate gradient using
+  // the triangle method
+  float offsetLength = 0.01;
+  vec3 tangent1 = normalize(cross(normal, vec3(1.0, 0.0, 0.01)));
+  vec3 tangent2 = normalize(cross(tangent1, normal));
+  vec3 tangent3 = normalize(-(tangent1 + tangent2));
+  vec3 p1 = normalize(position + tangent1 * offsetLength);
+  vec3 p2 = normalize(position + tangent2 * offsetLength);
+  vec3 p3 = normalize(position + tangent3 * offsetLength);
+  vec3 s1 = (1.0 + sampleHeight(p1)) * p1;
+  vec3 s2 = (1.0 + sampleHeight(p2)) * p2;
+  vec3 s3 = (1.0 + sampleHeight(p3)) * p3;
+  vec3 v1 = s1 - s3;
+  vec3 v2 = s2 - s3;
+  outNormal = normalMatrix * normalize(-cross(v1, v2));
 
   fragPos = vec3(modelViewMatrix * vec4(position, 1.0));
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);

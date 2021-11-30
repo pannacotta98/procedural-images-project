@@ -35,7 +35,7 @@ const material = new THREE.ShaderMaterial({
 });
 
 // const geometry = new THREE.SphereGeometry(1, 100, 100);
-const geometry = new THREE.IcosahedronGeometry(1, 30);
+const geometry = new THREE.IcosahedronGeometry(1, 55);
 const sphere = new THREE.Mesh(geometry, material);
 scene.add(sphere);
 
