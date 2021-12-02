@@ -12,6 +12,15 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // import { Scene } from 'three';
 // const scene = new Scene();
 
+// Could this font be nice maybe?
+// https://www.behance.net/gallery/33704618/ANURATI-Free-font
+// https://www.behance.net/gallery/56035831/Alexana-Neue-Free-Font
+// https://www.behance.net/gallery/36169711/Exan-3-Free-Font
+// https://www.dafont.com/rezland.font
+// Equinox – Minimal Display Font
+// Maybe I'll get some cute font instead depending on the look of
+// the planet.
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -35,7 +44,7 @@ const material = new THREE.ShaderMaterial({
 });
 
 // const geometry = new THREE.SphereGeometry(1, 100, 100);
-const geometry = new THREE.IcosahedronGeometry(1, 30);
+const geometry = new THREE.IcosahedronGeometry(1, 100);
 const sphere = new THREE.Mesh(geometry, material);
 scene.add(sphere);
 
@@ -43,7 +52,7 @@ scene.add(sphere);
 const controls = new OrbitControls(camera, renderer.domElement);
 // controls.autoRotate = true;
 controls.enableDamping = true;
-controls.minDistance = 1;
+controls.minDistance = 2;
 controls.maxDistance = 10;
 camera.position.z = 3;
 
@@ -52,11 +61,6 @@ controls.update();
 // Staaaars
 const sky = (function () {
   const geometry = new THREE.IcosahedronGeometry(30, 1);
-  // const geometry = new THREE.BoxGeometry(100, 100, 100);
-  // const material = new THREE.MeshBasicMaterial({
-  //   color: '#9f6f1f',
-  //   side: THREE.BackSide,
-  // });
   const material = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0.0 }, // TODO Fix time; now works but is it done correctly?
@@ -109,6 +113,3 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
-
-// TODO
-// How does frustum culling work?
