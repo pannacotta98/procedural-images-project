@@ -27,19 +27,6 @@ vec3 diffuse(vec3 normal) {
   return diff * lightColor;
 }
 
-// vec3 specular() {
-//   vec3 norm = normalize(outNormal);
-//   vec3 lightDir = normalize(lightPos - fragPos);
-//   // This got a bit messy bcs the guide https://learnopengl.com/Lighting/Basic-Lighting
-//   // makes calculations in world space, should probably rewrite and either follow it
-//   // or go all the way for view space
-//   vec3 cameraViewPosition = vec3(viewMatrix * vec4(cameraPosition, 1.0));
-//   vec3 viewDir = normalize(cameraViewPosition - fragPos);
-//   vec3 reflectDir = reflect(-lightDir, norm);
-//   float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
-//   return specularStrength * spec * lightColor;
-// }
-
 void main() {
   vec3 result = (ambient() + diffuse(outNormal)) * objColor;
   // result *= sin(time);
