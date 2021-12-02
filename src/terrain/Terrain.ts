@@ -12,6 +12,7 @@ export class Terrain implements SceneObject {
       uniforms: {
         time: { value: 0.0 }, // TODO Fix time
         resolution: { value: new Vector2() }, // TODO Also fix
+        heightOffsetScale: { value: 0.03 },
       },
       vertexShader: noise3DShader + testVert,
       fragmentShader: testFrag,
