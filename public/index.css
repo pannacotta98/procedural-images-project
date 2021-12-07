@@ -57,3 +57,17 @@ h2 {
 p {
   margin-bottom: 0.5rem;
 }
+
+.loading-screen {
+  background-color: black;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  padding-top: 70vh;
+  transition-duration: 1s;
+  opacity: 0.9;
+  pointer-events: none;
+}

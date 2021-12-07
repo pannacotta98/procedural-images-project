@@ -23,6 +23,10 @@ application.addSceneObject(water);
 application.start();
 console.log('test');
 
+//@ts-ignore
+document.getElementsByClassName('loading-screen')[0].style.opacity = 0;
+// document.getElementsByClassName('loading-screen')[0].style.display = 'none';
+
 // addSlider({
 //   parentId: 'camera-setting',
 //   value: defaultConfig.test.speed,
