@@ -14,7 +14,7 @@ export default {
         ...(process.versions.pnp ? { tsc: 'yarn pnpify tsc' } : {}),
       },
     ],
-    ['snowpack-plugin-glslify', { compress: false }],
+    ['snowpack-plugin-glslify', { compress: false }], // TODO Could i compress for release only? (probably)
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
@@ -29,6 +29,7 @@ export default {
   },
   devOptions: {
     /* ... */
+    open: 'chrome',
   },
   buildOptions: {
     /* ... */

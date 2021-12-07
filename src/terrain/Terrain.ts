@@ -1,8 +1,7 @@
 import { IcosahedronGeometry, Mesh, ShaderMaterial, Vector2 } from 'three';
 import type { SceneObject } from './../SceneObject';
-import testVert from './../shaders/testVert.glsl';
-import testFrag from './../shaders/testFrag.glsl';
-import noise3DShader from './../commonShader/noise3D.glsl';
+import vert from './terrainVert.glsl';
+import frag from './terrainFrag.glsl';
 
 export class Terrain implements SceneObject {
   object3D: Mesh;
@@ -14,8 +13,8 @@ export class Terrain implements SceneObject {
         resolution: { value: new Vector2() }, // TODO Also fix
         heightOffsetScale: { value: 0.03 },
       },
-      vertexShader: noise3DShader + testVert,
-      fragmentShader: testFrag,
+      vertexShader: vert,
+      fragmentShader: frag,
       // wireframe: true,
     });
     const geometry = new IcosahedronGeometry(1, 100);

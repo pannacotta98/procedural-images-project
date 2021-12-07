@@ -8,6 +8,8 @@ out vec3 fragPos;
 out float radialOffset;
 out vec2 uvInterpolated;
 
+#pragma glslify: snoise = require(./../commonShader/noise3D)
+
 // Uniforms and attributes added by three.js
 // https://threejs.org/docs/#api/en/renderers/webgl/WebGLProgram
 // default vertex attributes provided by Geometry and BufferGeometry
