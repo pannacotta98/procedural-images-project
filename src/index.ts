@@ -16,12 +16,12 @@ import { addSlider } from './gui';
 
 const sky = new Sky();
 const terrain = new Terrain();
-const water = new Water();
+// const water = new Water();
 
 const application = new Application();
 application.addSceneObject(sky);
 application.addSceneObject(terrain);
-application.addSceneObject(water);
+// application.addSceneObject(water);
 application.start();
 
 //@ts-ignore
@@ -54,12 +54,3 @@ addSlider({
   max: 10,
   onChange: (newVal: number) => (activeConfig.terrain.baseFreq = newVal),
 });
-
-// addSlider({
-//   parentId: 'camera-setting',
-//   value: defaultConfig.test.zoom,
-//   label: 'Zoom',
-//   min: 0.5,
-//   max: 5,
-//   onChange: (newVal) => (defaultConfig.test.zoom = newVal),
-// });

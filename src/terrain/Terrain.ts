@@ -1,4 +1,11 @@
-import { IcosahedronGeometry, Mesh, ShaderMaterial, Vector2 } from 'three';
+import {
+  IcosahedronGeometry,
+  Mesh,
+  ShaderMaterial,
+  UniformsLib,
+  UniformsUtils,
+  Vector2,
+} from 'three';
 import type { SceneObject } from './../SceneObject';
 import vert from './terrainVert.glsl';
 import frag from './terrainFrag.glsl';
@@ -10,15 +17,19 @@ export class Terrain implements SceneObject {
 
   constructor() {
     this.material = new ShaderMaterial({
-      uniforms: {
-        time: { value: 0.0 }, // TODO Fix time
-        resolution: { value: new Vector2() }, // TODO Also fix
-        heightOffsetScale: { value: activeConfig.terrain.offsetScale },
-        numOctaves: { value: activeConfig.terrain.numOctaves },
-        baseFreq: { value: activeConfig.terrain.baseFreq },
-      },
+      uniforms: UniformsUtils.merge([
+        UniformsLib['lights'],
+        {
+          time: { value: 0.0 }, // TODO Fix time
+          resolution: { value: new Vector2() }, // TODO Also fix
+          heightOffsetScale: { value: activeConfig.terrain.offsetScale },
+          numOctaves: { value: activeConfig.terrain.numOctaves },
+          baseFreq: { value: activeConfig.terrain.baseFreq },
+        },
+      ]),
       vertexShader: vert,
       fragmentShader: frag,
+      lights: true,
       // wireframe: true,
     });
     const geometry = new IcosahedronGeometry(1, 100);
@@ -31,7 +42,5 @@ export class Terrain implements SceneObject {
       activeConfig.terrain.offsetScale;
     this.material.uniforms.numOctaves.value = activeConfig.terrain.numOctaves;
     this.material.uniforms.baseFreq.value = activeConfig.terrain.baseFreq;
-    // console.log(defaultConfig.terrain.offsetScale);
-    // console.log('WHat');
   }
 }

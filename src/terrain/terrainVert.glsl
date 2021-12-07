@@ -4,6 +4,19 @@ uniform float heightOffsetScale;
 uniform float baseFreq;
 uniform int numOctaves;
 
+// TODO Will probably use this later
+// #if NUM_DIR_LIGHTS > 0
+// struct DirectionalLight {
+//   vec3 direction;
+//   vec3 color;
+//   // int shadow;
+//   // float shadowBias;
+//   // float shadowRadius;
+//   // vec2 shadowMapSize;
+// };
+// uniform DirectionalLight directionalLights[NUM_DIR_LIGHTS];
+// #endif
+
 out vec3 outPosition;
 out vec3 outNormal;
 out vec3 fragPos;
@@ -34,7 +47,7 @@ float sampleHeight(vec3 pos) {
 void main() {
   uvInterpolated = uv;
 
-  float radialOffset = sampleHeight(position);
+  radialOffset = sampleHeight(position);
 
   // Sample height near the point to calculate gradient using
   // the triangle method
