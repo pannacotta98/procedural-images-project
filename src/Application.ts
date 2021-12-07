@@ -39,6 +39,7 @@ export class Application {
   }
 
   addSceneObject(obj: SceneObject) {
+    this.objects.push(obj);
     this.scene.add(obj.object3D);
   }
 
@@ -50,11 +51,15 @@ export class Application {
   // Arrow function to bind this so it can be invoked from requestAnimationFrame
   animate = (time?: number) => {
     // NOTE Make sure to use time to calculate delta time if using time
-    requestAnimationFrame(this.animate);
     // required if controls.enableDamping or controls.autoRotate are set to true
     this.controls.update();
+    for (const obj of this.objects) {
+      obj.update(0); // TODO Fix zero
+    }
     // this.material.uniforms.time.value = clock.getElapsedTime();
     this.renderer.render(this.scene, this.camera);
+
+    requestAnimationFrame(this.animate);
   };
 
   onWindowResize = () => {

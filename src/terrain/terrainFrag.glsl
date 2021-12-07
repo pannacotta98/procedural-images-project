@@ -12,7 +12,7 @@ in vec2 uvInterpolated;
 vec3 lightPos = 10.0 * vec3(3.0, 2.0, 1.0);
 // vec3 lightPos = vec3(6.0, 0.0, 0.0);
 vec3 lightColor = vec3(1.0, 1.0, 1.0);
-vec3 objColor = vec3(0.25, 0.65, 0.91);
+vec3 objColor = vec3(0.57, 0.76, 0.23);
 float ambientFactor = 0.0;
 
 vec3 ambient() {

@@ -2,24 +2,36 @@ import { IcosahedronGeometry, Mesh, ShaderMaterial, Vector2 } from 'three';
 import type { SceneObject } from './../SceneObject';
 import vert from './terrainVert.glsl';
 import frag from './terrainFrag.glsl';
+import { activeConfig } from '../config';
 
 export class Terrain implements SceneObject {
   object3D: Mesh;
+  material: ShaderMaterial;
 
   constructor() {
-    const material = new ShaderMaterial({
+    this.material = new ShaderMaterial({
       uniforms: {
         time: { value: 0.0 }, // TODO Fix time
         resolution: { value: new Vector2() }, // TODO Also fix
-        heightOffsetScale: { value: 0.03 },
+        heightOffsetScale: { value: activeConfig.terrain.offsetScale },
+        numOctaves: { value: activeConfig.terrain.numOctaves },
+        baseFreq: { value: activeConfig.terrain.baseFreq },
       },
       vertexShader: vert,
       fragmentShader: frag,
       // wireframe: true,
     });
     const geometry = new IcosahedronGeometry(1, 100);
-    this.object3D = new Mesh(geometry, material);
+    this.object3D = new Mesh(geometry, this.material);
+    // material.uniformsNeedUpdate = true;
   }
 
-  update(time: number) {}
+  update(time: number) {
+    this.material.uniforms.heightOffsetScale.value =
+      activeConfig.terrain.offsetScale;
+    this.material.uniforms.numOctaves.value = activeConfig.terrain.numOctaves;
+    this.material.uniforms.baseFreq.value = activeConfig.terrain.baseFreq;
+    // console.log(defaultConfig.terrain.offsetScale);
+    // console.log('WHat');
+  }
 }

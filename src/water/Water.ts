@@ -16,8 +16,8 @@ export class Water implements SceneObject {
     //   // wireframe: true,
     // });
     const material = new MeshBasicMaterial({
-      color: '#478923',
-      opacity: 0.5,
+      color: '#303097',
+      opacity: 0.8,
       transparent: true,
     });
     const geometry = new IcosahedronGeometry(1, 100);
