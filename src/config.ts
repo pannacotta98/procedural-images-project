@@ -1,7 +1,8 @@
 export const activeConfig = {
   terrain: {
-    offsetScale: 0.03,
-    numOctaves: 5,
-    baseFreq: 2,
+    offsetScale: 0.04,
+    numOctaves: 8,
+    baseFreq: 1.2,
+    useExponentiation: true,
   },
 };

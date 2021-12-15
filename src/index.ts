@@ -3,7 +3,7 @@ import { Application } from './Application';
 import { Terrain } from './terrain/Terrain';
 import { Water } from './water/Water';
 import { activeConfig } from './config';
-import { addSlider } from './gui';
+import { addSlider, addSwitch } from './gui';
 
 // Could this font be nice maybe?
 // https://www.behance.net/gallery/33704618/ANURATI-Free-font
@@ -53,4 +53,11 @@ addSlider({
   min: 0.5,
   max: 10,
   onChange: (newVal: number) => (activeConfig.terrain.baseFreq = newVal),
+});
+
+addSwitch({
+  parentId: 'terrain-setting',
+  value: activeConfig.terrain.useExponentiation,
+  label: 'Use exponentiation',
+  onChange: (newVal) => (activeConfig.terrain.useExponentiation = newVal),
 });

@@ -1,4 +1,10 @@
-import { Clock, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import {
+  Clock,
+  DirectionalLight,
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer,
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import type { SceneObject } from './SceneObject';
 
@@ -13,6 +19,10 @@ export class Application {
   constructor() {
     this.scene = new Scene();
 
+    const directionalLight = new DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(0.5, 0.1, 0.5);
+    this.scene.add(directionalLight);
+
     this.camera = new PerspectiveCamera(
       75, // fov
       window.innerWidth / window.innerHeight, // aspect
@@ -21,6 +31,7 @@ export class Application {
     );
 
     this.renderer = new WebGLRenderer({ antialias: true });
+    this.renderer.physicallyCorrectLights = true; // To get unscaled value in shader
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
 
@@ -29,7 +40,7 @@ export class Application {
     window.addEventListener('resize', this.onWindowResize);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.autoRotate = true;
+    // this.controls.autoRotate = true;
     this.controls.autoRotateSpeed = 0.4;
     this.controls.enableDamping = true;
     this.controls.minDistance = 2;

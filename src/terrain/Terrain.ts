@@ -25,6 +25,7 @@ export class Terrain implements SceneObject {
           heightOffsetScale: { value: activeConfig.terrain.offsetScale },
           numOctaves: { value: activeConfig.terrain.numOctaves },
           baseFreq: { value: activeConfig.terrain.baseFreq },
+          useExponentiation: { value: activeConfig.terrain.useExponentiation },
         },
       ]),
       vertexShader: vert,
@@ -42,5 +43,7 @@ export class Terrain implements SceneObject {
       activeConfig.terrain.offsetScale;
     this.material.uniforms.numOctaves.value = activeConfig.terrain.numOctaves;
     this.material.uniforms.baseFreq.value = activeConfig.terrain.baseFreq;
+    this.material.uniforms.useExponentiation.value =
+      activeConfig.terrain.useExponentiation;
   }
 }

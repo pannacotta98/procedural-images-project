@@ -3,25 +3,10 @@ uniform vec2 resolution;
 uniform float heightOffsetScale;
 uniform float baseFreq;
 uniform int numOctaves;
+uniform bool useExponentiation;
 
-// TODO Will probably use this later
-// #if NUM_DIR_LIGHTS > 0
-// struct DirectionalLight {
-//   vec3 direction;
-//   vec3 color;
-//   // int shadow;
-//   // float shadowBias;
-//   // float shadowRadius;
-//   // vec2 shadowMapSize;
-// };
-// uniform DirectionalLight directionalLights[NUM_DIR_LIGHTS];
-// #endif
-
-out vec3 outPosition;
 out vec3 outNormal;
-out vec3 fragPos;
 out float radialOffset;
-out vec2 uvInterpolated;
 
 #pragma glslify: snoise = require(./../commonShader/noise3D)
 
@@ -41,12 +26,11 @@ float sampleHeight(vec3 pos) {
     amp *= 0.5;
     freq *= 2.0;
   }
-  return heightOffsetScale * heightOffset;
+  return heightOffsetScale * ((useExponentiation) ? exp(heightOffset) : heightOffset);
+  // return heightOffsetScale * exp(heightOffset);
 }
 
 void main() {
-  uvInterpolated = uv;
-
   radialOffset = sampleHeight(position);
 
   // Sample height near the point to calculate gradient using
@@ -65,6 +49,5 @@ void main() {
   vec3 v2 = s2 - s3;
   outNormal = normalMatrix * normalize(-cross(v1, v2));
 
-  fragPos = vec3(modelViewMatrix * vec4(position, 1.0));
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);
 }
