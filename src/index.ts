@@ -16,12 +16,12 @@ import { addSlider, addSwitch } from './gui';
 
 const sky = new Sky();
 const terrain = new Terrain();
-// const water = new Water();
+const water = new Water();
 
 const application = new Application();
 application.addSceneObject(sky);
 application.addSceneObject(terrain);
-// application.addSceneObject(water);
+application.addSceneObject(water);
 application.start();
 
 //@ts-ignore

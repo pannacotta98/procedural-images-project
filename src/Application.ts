@@ -20,7 +20,7 @@ export class Application {
     this.scene = new Scene();
 
     const directionalLight = new DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(0.5, 0.1, 0.5);
+    directionalLight.position.set(0.7, 0.1, 0.5);
     this.scene.add(directionalLight);
 
     this.camera = new PerspectiveCamera(
@@ -31,7 +31,9 @@ export class Application {
     );
 
     this.renderer = new WebGLRenderer({ antialias: true });
-    this.renderer.physicallyCorrectLights = true; // To get unscaled value in shader
+    // Using physicallyCorrectLights to get unscaled values in shader
+    // I don't really do anything physically based though, hehe
+    this.renderer.physicallyCorrectLights = true;
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
 
