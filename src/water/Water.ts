@@ -12,20 +12,22 @@ import vert from './waterVert.glsl';
 
 export class Water implements SceneObject {
   object3D: Mesh;
+  material: ShaderMaterial;
 
   constructor() {
-    const material = new ShaderMaterial({
+    this.material = new ShaderMaterial({
       uniforms: UniformsUtils.merge([
         UniformsLib['lights'],
         {
-          time: { value: 0.0 }, // TODO Fix time
-          resolution: { value: new Vector2() }, // TODO Also fix
+          time: { value: 0.0 },
+          resolution: { value: new Vector2() }, // TODO fix
           heightOffsetScale: { value: 0.03 },
         },
       ]),
       vertexShader: vert,
       fragmentShader: frag,
-      // transparent: true,
+      transparent: true,
+      opacity: 0.5,
       lights: true,
       // wireframe: true,
     });
@@ -35,8 +37,12 @@ export class Water implements SceneObject {
     //   transparent: true,
     // });
     const geometry = new IcosahedronGeometry(1.04, 100);
-    this.object3D = new Mesh(geometry, material);
+    this.object3D = new Mesh(geometry, this.material);
+
+    // TODO Maybe use some callback that maybe exist in three.js
   }
 
-  update(time: number) {}
+  update(time: number) {
+    this.material.uniforms.time.value = time;
+  }
 }

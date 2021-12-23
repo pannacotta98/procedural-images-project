@@ -35,7 +35,6 @@ export class Terrain implements SceneObject {
     });
     const geometry = new IcosahedronGeometry(1, 100);
     this.object3D = new Mesh(geometry, this.material);
-    // material.uniformsNeedUpdate = true;
   }
 
   update(time: number) {

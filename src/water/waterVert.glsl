@@ -2,7 +2,9 @@ uniform float time;
 uniform vec2 resolution;
 
 out vec3 outNormal;
-out float radialOffset;
+// out float radialOffset;
+out vec3 vertPos;
+out vec3 vertWorldPos;
 
 #pragma glslify: snoise = require(./../commonShader/noise3D)
 
@@ -37,8 +39,10 @@ void main() {
   // vec3 v1 = s1 - s3;
   // vec3 v2 = s2 - s3;
   // outNormal = normalMatrix * normalize(-cross(v1, v2));
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);
-
+  // gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);
   outNormal = normalMatrix * normal;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  vec3 newPos = position;
+  vertPos = vec3(modelViewMatrix * vec4(newPos, 1.0));
+  vertWorldPos = vec3(modelMatrix * vec4(newPos, 1.0));
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
 }

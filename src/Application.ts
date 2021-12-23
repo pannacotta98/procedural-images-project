@@ -20,7 +20,8 @@ export class Application {
     this.scene = new Scene();
 
     const directionalLight = new DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(0.7, 0.1, 0.5);
+    // directionalLight.position.set(0.7, 0.1, 0.5);
+    directionalLight.position.set(0, 0, 1);
     this.scene.add(directionalLight);
 
     this.camera = new PerspectiveCamera(
@@ -62,14 +63,13 @@ export class Application {
   }
 
   // Arrow function to bind this so it can be invoked from requestAnimationFrame
-  animate = (time?: number) => {
-    // NOTE Make sure to use time to calculate delta time if using time
-    // required if controls.enableDamping or controls.autoRotate are set to true
+  animate = () => {
+    // Required if controls.enableDamping or controls.autoRotate are set to true
     this.controls.update();
+
     for (const obj of this.objects) {
-      obj.update(0); // TODO Fix zero
+      obj.update(this.clock.getElapsedTime());
     }
-    // this.material.uniforms.time.value = clock.getElapsedTime();
     this.renderer.render(this.scene, this.camera);
 
     requestAnimationFrame(this.animate);
