@@ -1,12 +1,31 @@
 import {
+  BoxGeometry,
   Clock,
   DirectionalLight,
+  IcosahedronGeometry,
+  LinearFilter,
+  Mesh,
   PerspectiveCamera,
+  RGBFormat,
   Scene,
   WebGLRenderer,
+  WebGLRenderTarget,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { SSRrPass } from 'three/examples/jsm/postprocessing/SSRrPass';
+import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader';
+import { ClearPass } from 'three/examples/jsm/postprocessing/ClearPass';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import {
+  MaskPass,
+  ClearMaskPass,
+} from 'three/examples/jsm/postprocessing/MaskPass';
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 import type { SceneObject } from './SceneObject';
+import { CustomMaskPass } from './postProcessing/CustomMaskPass';
+import { Water } from './water/Water';
 
 export class Application {
   scene: Scene;
@@ -15,6 +34,9 @@ export class Application {
   clock: Clock;
   controls: OrbitControls;
   objects: SceneObject[] = [];
+  composer: EffectComposer;
+  tempSelectsSomething: any[]; // TODO TEMP
+  renderTarget: WebGLRenderTarget;
 
   constructor() {
     this.scene = new Scene();
@@ -32,6 +54,61 @@ export class Application {
     );
 
     this.renderer = new WebGLRenderer({ antialias: true });
+    this.renderer.setClearColor(0x000050); // TODO Temp
+    this.renderer.autoClear = false; // TODO ?
+
+    this.tempSelectsSomething = [];
+    this.renderTarget = new WebGLRenderTarget(
+      window.innerWidth,
+      window.innerHeight,
+      {
+        minFilter: LinearFilter,
+        magFilter: LinearFilter,
+        format: RGBFormat,
+        stencilBuffer: true,
+      },
+    );
+    this.composer = new EffectComposer(this.renderer, this.renderTarget);
+    const ssrrPass = new SSRrPass({
+      renderer: this.renderer,
+      scene: this.scene,
+      camera: this.camera,
+      width: window.innerWidth,
+      height: window.innerHeight,
+      selects: this.tempSelectsSomething,
+    });
+
+    const testScene = new Scene();
+    const geometry = new IcosahedronGeometry(1.04, 100);
+    const prutt = new Mesh(geometry);
+    testScene.add(prutt);
+
+    const renderPass = new RenderPass(this.scene, this.camera);
+    renderPass.clear = false;
+
+    const otherRenderPass = new RenderPass(testScene, this.camera);
+    otherRenderPass.clear = false;
+
+    // const box = new Mesh(new BoxGeometry(2, 2, 2));
+    // testScene.add(box);
+
+    const outputPass = new ShaderPass(CopyShader);
+    outputPass.renderToScreen = false;
+
+    this.composer.addPass(new ClearPass());
+    this.composer.addPass(renderPass);
+    // this.composer.addPass(new ClearMaskPass());
+    // this.composer.addPass(new MaskPass(testScene, this.camera));
+    // const customMaskPass = new CustomMaskPass(testScene, this.camera);
+    // customMaskPass.inverse = true;
+    // this.composer.addPass(customMaskPass);
+    this.composer.addPass(otherRenderPass);
+    // this.composer.addPass(new ClearMaskPass());
+    this.composer.addPass(outputPass);
+
+    // this.composer.addPass(ssrrPass);
+    // this.composer.addPass(new ShaderPass(GammaCorrectionShader));
+
     // Using physicallyCorrectLights to get unscaled values in shader
     // I don't really do anything physically based though, hehe
     this.renderer.physicallyCorrectLights = true;
@@ -64,20 +141,22 @@ export class Application {
 
   // Arrow function to bind this so it can be invoked from requestAnimationFrame
   animate = () => {
+    requestAnimationFrame(this.animate);
     // Required if controls.enableDamping or controls.autoRotate are set to true
     this.controls.update();
+    const time = this.clock.getElapsedTime();
 
     for (const obj of this.objects) {
-      obj.update(this.clock.getElapsedTime());
+      obj.update(time);
     }
-    this.renderer.render(this.scene, this.camera);
-
-    requestAnimationFrame(this.animate);
+    // this.renderer.render(this.scene, this.camera);
+    this.composer.render();
   };
 
   onWindowResize = () => {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.composer.setSize(window.innerWidth, window.innerHeight);
   };
 }

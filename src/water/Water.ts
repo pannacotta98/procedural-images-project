@@ -15,15 +15,16 @@ export class Water implements SceneObject {
   material: ShaderMaterial;
 
   constructor() {
+    const uniforms = UniformsUtils.merge([
+      UniformsLib['lights'],
+      {
+        time: { value: 0.0 },
+        resolution: { value: new Vector2() }, // TODO fix
+        heightOffsetScale: { value: 0.03 },
+      },
+    ]);
     this.material = new ShaderMaterial({
-      uniforms: UniformsUtils.merge([
-        UniformsLib['lights'],
-        {
-          time: { value: 0.0 },
-          resolution: { value: new Vector2() }, // TODO fix
-          heightOffsetScale: { value: 0.03 },
-        },
-      ]),
+      uniforms: uniforms,
       vertexShader: vert,
       fragmentShader: frag,
       transparent: true,
@@ -31,14 +32,8 @@ export class Water implements SceneObject {
       lights: true,
       // wireframe: true,
     });
-    // const material = new MeshLambertMaterial({
-    //   color: '#303097',
-    //   opacity: 0.8,
-    //   transparent: true,
-    // });
     const geometry = new IcosahedronGeometry(1.04, 100);
     this.object3D = new Mesh(geometry, this.material);
-
     // TODO Maybe use some callback that maybe exist in three.js
   }
 

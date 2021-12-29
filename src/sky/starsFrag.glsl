@@ -2,9 +2,6 @@ uniform float time;
 uniform vec2 resolution;
 
 in vec3 outPosition;
-in vec3 outNormal;
-in vec3 fragPos;
-in vec2 uvInterpolated;
 
 #pragma glslify: snoise = require(./../commonShader/noise3D)
 

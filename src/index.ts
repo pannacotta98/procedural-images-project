@@ -21,7 +21,12 @@ const water = new Water();
 const application = new Application();
 application.addSceneObject(sky);
 application.addSceneObject(terrain);
-application.addSceneObject(water);
+// application.addSceneObject(water);
+
+// TODO SUuuupertemp
+application.tempSelectsSomething.push(water.object3D);
+// application.tempSelectsSomething.push(terrain.object3D);
+
 application.start();
 
 //@ts-ignore
@@ -61,3 +66,6 @@ addSwitch({
   label: 'Use exponentiation',
   onChange: (newVal) => (activeConfig.terrain.useExponentiation = newVal),
 });
+
+// TODO Ideas
+// - Depth of field to give minature feeling

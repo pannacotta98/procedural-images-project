@@ -6,6 +6,7 @@ in vec3 fragPos;
 in float radialOffset;
 
 vec3 objColor = vec3(0.57, 0.76, 0.23);
+vec3 mountainColor = vec3(0.49);
 vec3 snowColor = vec3(1.0, 1.0, 1.0);
 float ambientFactor = 0.0;
 
@@ -31,12 +32,15 @@ vec3 diffuse(vec3 normal) {
 }
 
 vec3 terrainTexture() {
-  if(radialOffset > 0.065)
+  if(radialOffset > 0.075) {
     return snowColor;
-  else if(radialOffset > 0.04)
+  } else if(radialOffset > 0.06) {
+    return mountainColor;
+  } else if(radialOffset > 0.043) {
     return objColor;
-  else
-    return vec3(0.1, 0.1, 0.9);
+  } else {
+    return vec3(0.7, 0.7, 0.1);
+  }
 }
 
 void main() {
