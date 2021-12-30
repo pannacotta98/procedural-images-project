@@ -4,8 +4,6 @@ uniform float opacity;
 
 in vec3 outPosition;
 in vec3 outNormal;
-in vec3 fragPos;
-in vec2 uvInterpolated;
 
 #pragma glslify: psrdnoise = require(./../commonShader/psrdnoise3-min.glsl)
 

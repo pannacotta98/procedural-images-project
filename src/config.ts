@@ -1,22 +1,6 @@
 import { DeepPartial, mergeDeep } from './util';
 
-type Config = {
-  terrain: {
-    offsetScale: number;
-    numOctaves: number;
-    baseFreq: number;
-    useExponentiation: boolean;
-    wireframe: boolean;
-  };
-  atmosphere: {
-    wireframe: boolean;
-  };
-  clouds: {
-    opacity: number;
-  };
-};
-
-const defaultConfig: Config = {
+const defaultConfig = {
   terrain: {
     offsetScale: 0.04,
     numOctaves: 8,
@@ -25,6 +9,7 @@ const defaultConfig: Config = {
     wireframe: false,
   },
   atmosphere: {
+    opacity: 0.2,
     wireframe: false,
   },
   clouds: {
@@ -32,6 +17,7 @@ const defaultConfig: Config = {
   },
 };
 
+type Config = typeof defaultConfig;
 type PartialConfig = DeepPartial<Config>;
 
 export interface ConfigMetaValueType {
@@ -63,6 +49,7 @@ export const configMetaData: ConfigMetaData = {
   },
   atmosphere: {
     wireframe: new ConfigBoolValMeta('Wireframe'),
+    opacity: new ConfigFloatValMeta(0, 1, 'Opacity'),
   },
   clouds: {
     opacity: new ConfigFloatValMeta(0, 1, 'Opacity'),
@@ -95,6 +82,7 @@ presets.set('Water debug', {
   },
   atmosphere: {
     wireframe: false,
+    opacity: 0,
   },
   clouds: {
     opacity: 0.0,

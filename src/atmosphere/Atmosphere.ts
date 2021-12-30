@@ -22,12 +22,12 @@ export class Atmosphere implements SceneObject {
         {
           time: { value: 0.0 },
           resolution: { value: new Vector2() }, // TODO fix
+          opacity: { value: 0.0 },
         },
       ]),
       vertexShader: vert,
       fragmentShader: frag,
       transparent: true,
-      opacity: 0.5,
       lights: true,
       wireframe: activeConfig.atmosphere.wireframe,
     });
@@ -38,6 +38,7 @@ export class Atmosphere implements SceneObject {
 
   update(time: number) {
     this.material.uniforms.time.value = time;
+    this.material.uniforms.opacity.value = activeConfig.atmosphere.opacity;
     this.material.wireframe = activeConfig.atmosphere.wireframe;
   }
 }

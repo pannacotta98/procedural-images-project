@@ -1,10 +1,8 @@
 uniform float time;
 uniform vec2 resolution;
+uniform float opacity;
 
-in vec3 outPosition;
 in vec3 outNormal;
-in vec3 fragPos;
-in vec2 uvInterpolated;
 
 #if NUM_DIR_LIGHTS > 0
 struct DirectionalLight {
@@ -23,13 +21,6 @@ vec3 diffuse(vec3 normal) {
 }
 
 void main() {
-
-  // vec3 mixcolor = vec3(0.5 + 0.4 * n);
-  // gl_FragColor = vec4(mixcolor, 0.4);
-
   vec3 mixcolor = vec3(0.66, 0.74, 1) * diffuse(outNormal);
-  gl_FragColor = vec4(mixcolor, 0.2);
-  // gl_FragColor = vec4(mixcolor, 0.5 + 0.4 * n);
-
-  // gl_FragColor = vec4(1.0, 0.0, 0.0, 0.2);
+  gl_FragColor = vec4(mixcolor, opacity);
 }
