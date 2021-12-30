@@ -33,7 +33,7 @@ vec3 diffuse(vec3 normal) {
 vec3 terrainTexture() {
   if(radialOffset > 0.065)
     return snowColor;
-  else if(radialOffset > 0.04)
+  else if(radialOffset > 0.035)
     return objColor;
   else
     return vec3(0.1, 0.1, 0.9);

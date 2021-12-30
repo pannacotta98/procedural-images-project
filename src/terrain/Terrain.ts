@@ -31,7 +31,7 @@ export class Terrain implements SceneObject {
       vertexShader: vert,
       fragmentShader: frag,
       lights: true,
-      // wireframe: true,
+      wireframe: activeConfig.terrain.wireframe,
     });
     const geometry = new IcosahedronGeometry(1, 100);
     this.object3D = new Mesh(geometry, this.material);
@@ -44,5 +44,6 @@ export class Terrain implements SceneObject {
     this.material.uniforms.baseFreq.value = activeConfig.terrain.baseFreq;
     this.material.uniforms.useExponentiation.value =
       activeConfig.terrain.useExponentiation;
+    this.material.wireframe = activeConfig.terrain.wireframe;
   }
 }

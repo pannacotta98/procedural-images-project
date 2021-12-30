@@ -1,6 +1,7 @@
 :root {
   --dim-text-color: rgb(177, 177, 177);
   --bright-text-color: white;
+  --accent: rgb(0, 136, 255);
 }
 
 body {
@@ -56,6 +57,16 @@ h2 {
 
 p {
   margin-bottom: 0.5rem;
+}
+
+.preset-item {
+  display: inline-block;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.preset-item:hover {
+  color: var(--accent);
 }
 
 .loading-screen {

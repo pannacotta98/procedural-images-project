@@ -1,74 +1,168 @@
-import { activeConfig } from './config';
+import {
+  activeConfig,
+  ConfigBoolValMeta,
+  ConfigFloatValMeta,
+  ConfigIntValMeta,
+  configMetaData,
+  ConfigMetaValueType,
+  loadPreset,
+  presets,
+} from './config';
 
-interface SliderParameters {
-  parentId: string;
-  value: number;
-  label: string;
-  min: number;
-  max: number;
-  onChange: (newValue: number) => void;
-  isDiscrete?: boolean;
+/**
+ * Highly specific gui class for this particular project.
+ * Kind of a mess in many ways.
+ */
+export class GUI {
+  controls: Control[] = [];
+
+  constructor() {
+    this.initConfigToggles();
+    this.initPresetList();
+  }
+
+  private initPresetList() {
+    const containerId = 'preset-settings';
+    const container = document.createElement('ul');
+    document.getElementById(containerId)?.append(container);
+    for (const [presetName, preset] of presets) {
+      const li = document.createElement('li');
+      li.textContent = presetName;
+      li.className = 'preset-item';
+      container?.append(li);
+
+      li.addEventListener('click', (event) => {
+        loadPreset(preset);
+        this.updateControls();
+      });
+    }
+  }
+
+  private initConfigToggles() {
+    for (const [categoryName, categoryValues] of Object.entries(activeConfig)) {
+      const containerId = categoryName + '-settings';
+      const container = document.getElementById(containerId);
+      if (!container) {
+        console.error('Cant find container', containerId);
+        continue;
+      }
+      for (let [key, value] of Object.entries(categoryValues)) {
+        // @ts-ignore cant be bothered to figure out the types for this rn
+        const metaData: ConfigMetaValueType = configMetaData[categoryName][key];
+
+        if (metaData instanceof ConfigBoolValMeta) {
+          this.controls.push(
+            new Switch(metaData, categoryName, key, container),
+          );
+        } else if (
+          metaData instanceof ConfigFloatValMeta ||
+          metaData instanceof ConfigIntValMeta
+        ) {
+          this.controls.push(
+            new Slider(metaData, categoryName, key, container),
+          );
+        } else {
+          console.error('No matching control');
+        }
+      }
+    }
+  }
+
+  updateControls() {
+    for (const c of this.controls) c.update();
+  }
 }
 
-export function addSlider({
-  parentId,
-  value,
-  label,
-  min,
-  max,
-  onChange,
-  isDiscrete = false,
-}: SliderParameters) {
-  const htmlToAdd = `<div>
-    <p>${label}</p>
-    <input
-      type="range"
-      min="${min}"
-      max="${max}"
-      step="${isDiscrete ? 1 : (max - min) / 100}"
-      value="${value}"
-      class="slider"
-      id="${label}"
-    />
-  </div>
-  `;
-  const parent = document.getElementById(parentId);
-  parent?.insertAdjacentHTML('beforeend', htmlToAdd);
-
-  document.getElementById(label)?.addEventListener('input', (event) => {
-    const element = event.target as HTMLInputElement;
-    onChange(+element.value);
-  });
+interface Control {
+  update: () => void;
 }
 
-interface SwitchParameters {
-  parentId: string;
-  value: boolean;
-  label: string;
-  onChange: (newValue: boolean) => void;
+class Switch implements Control {
+  inpEl: HTMLInputElement;
+  prop: string;
+  cat: string;
+
+  constructor(
+    meta: ConfigBoolValMeta,
+    cat: string,
+    prop: string,
+    parentObj: HTMLElement,
+  ) {
+    this.cat = cat;
+    this.prop = prop;
+    const id = parentObj.id + '-' + prop;
+
+    const container = document.createElement('div');
+    parentObj.append(container);
+
+    this.inpEl = document.createElement('input');
+    this.inpEl.type = 'checkbox';
+    this.inpEl.id = id;
+    this.inpEl.className = 'switch';
+    container.append(this.inpEl);
+
+    const label = document.createElement('label');
+    label.textContent = meta.label;
+    label.htmlFor = id;
+    container.append(label);
+
+    this.update();
+
+    this.inpEl.addEventListener('input', (event) => {
+      // @ts-ignore
+      activeConfig[this.cat][this.prop] = event.target.checked;
+    });
+  }
+
+  update() {
+    // @ts-ignore heheheh
+    this.inpEl.checked = activeConfig[this.cat][this.prop];
+  }
 }
 
-export function addSwitch({
-  parentId,
-  value,
-  label,
-  onChange,
-}: SwitchParameters) {
-  const htmlToAdd = `<div>
-    <input
-      type="checkbox"
-      checked="${value}"
-      class="switch"
-      id="${label}"
-    />
-    <label for="${label}" >${label}</label>
-  </div>
-  `;
-  const parent = document.getElementById(parentId);
-  parent?.insertAdjacentHTML('beforeend', htmlToAdd);
+class Slider implements Control {
+  inpEl: HTMLInputElement;
+  prop: string;
+  cat: string;
 
-  document.getElementById(label)?.addEventListener('input', (event) => {
-    const element = event.target as HTMLInputElement;
-    onChange(element.checked);
-  });
+  constructor(
+    meta: ConfigFloatValMeta | ConfigIntValMeta,
+    cat: string,
+    prop: string,
+    parentObj: HTMLElement,
+  ) {
+    this.cat = cat;
+    this.prop = prop;
+    const id = parentObj.id + '-' + prop;
+
+    const container = document.createElement('div');
+    parentObj.append(container);
+
+    const label = document.createElement('div');
+    label.textContent = meta.label;
+    container.append(label);
+
+    this.inpEl = document.createElement('input');
+    this.inpEl.type = 'range';
+    this.inpEl.step = (
+      meta instanceof ConfigIntValMeta ? 1 : (meta.max - meta.min) / 100
+    ).toString();
+    this.inpEl.min = meta.min.toString();
+    this.inpEl.max = meta.max.toString();
+    this.inpEl.id = id;
+    this.inpEl.className = 'slider';
+    container.append(this.inpEl);
+
+    this.update();
+
+    this.inpEl.addEventListener('input', (event) => {
+      // @ts-ignore
+      activeConfig[this.cat][this.prop] = +event.target.value;
+    });
+  }
+
+  update() {
+    // @ts-ignore heheheh
+    this.inpEl.value = activeConfig[this.cat][this.prop];
+  }
 }
