@@ -1,6 +1,7 @@
 uniform float time;
 uniform vec2 resolution;
 uniform float opacity;
+uniform vec3 color;
 
 in vec3 outNormal;
 
@@ -21,6 +22,6 @@ vec3 diffuse(vec3 normal) {
 }
 
 void main() {
-  vec3 mixcolor = vec3(0.66, 0.74, 1) * diffuse(outNormal);
+  vec3 mixcolor = color * diffuse(outNormal);
   gl_FragColor = vec4(mixcolor, opacity);
 }

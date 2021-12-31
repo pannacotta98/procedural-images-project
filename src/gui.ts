@@ -1,6 +1,8 @@
+import type { Color } from 'three';
 import {
   activeConfig,
   ConfigBoolValMeta,
+  ConfigColorValMeta,
   ConfigFloatValMeta,
   ConfigIntValMeta,
   configMetaData,
@@ -53,6 +55,10 @@ export class GUI {
         if (metaData instanceof ConfigBoolValMeta) {
           this.controls.push(
             new Switch(metaData, categoryName, key, container),
+          );
+        } else if (metaData instanceof ConfigColorValMeta) {
+          this.controls.push(
+            new ColorSelect(metaData, categoryName, key, container),
           );
         } else if (
           metaData instanceof ConfigFloatValMeta ||
@@ -158,6 +164,49 @@ class Slider implements Control {
     this.inpEl.addEventListener('input', (event) => {
       // @ts-ignore
       activeConfig[this.cat][this.prop] = +event.target.value;
+    });
+  }
+
+  update() {
+    // @ts-ignore heheheh
+    this.inpEl.value = activeConfig[this.cat][this.prop];
+  }
+}
+
+class ColorSelect implements Control {
+  inpEl: HTMLInputElement;
+  prop: string;
+  cat: string;
+
+  constructor(
+    meta: ConfigColorValMeta,
+    cat: string,
+    prop: string,
+    parentObj: HTMLElement,
+  ) {
+    this.cat = cat;
+    this.prop = prop;
+    const id = parentObj.id + '-' + prop;
+
+    const container = document.createElement('div');
+    parentObj.append(container);
+
+    this.inpEl = document.createElement('input');
+    this.inpEl.type = 'color';
+    this.inpEl.id = id;
+    this.inpEl.className = 'color-select';
+    container.append(this.inpEl);
+
+    const label = document.createElement('label');
+    label.textContent = meta.label;
+    label.htmlFor = id;
+    container.append(label);
+
+    this.update();
+
+    this.inpEl.addEventListener('input', (event) => {
+      // @ts-ignore
+      activeConfig[this.cat][this.prop] = event.target.value;
     });
   }
 

@@ -1,4 +1,5 @@
-import { DeepPartial, mergeDeep } from './util';
+import type { DeepPartial } from './util';
+import { merge } from 'lodash';
 
 const defaultConfig = {
   terrain: {
@@ -11,6 +12,7 @@ const defaultConfig = {
   atmosphere: {
     opacity: 0.2,
     wireframe: false,
+    color: '#eeeeee',
   },
   clouds: {
     opacity: 1.0,
@@ -32,6 +34,9 @@ export class ConfigFloatValMeta implements ConfigMetaValueType {
 export class ConfigBoolValMeta implements ConfigMetaValueType {
   constructor(public label: string) {}
 }
+export class ConfigColorValMeta implements ConfigMetaValueType {
+  constructor(public label: string) {}
+}
 export type ConfigMetaData = {
   [Category in keyof Config]: {
     [Property in keyof Config[Category]]: Config[Category][Property] extends number
@@ -50,6 +55,7 @@ export const configMetaData: ConfigMetaData = {
   atmosphere: {
     wireframe: new ConfigBoolValMeta('Wireframe'),
     opacity: new ConfigFloatValMeta(0, 1, 'Opacity'),
+    color: new ConfigColorValMeta('Color'),
   },
   clouds: {
     opacity: new ConfigFloatValMeta(0, 1, 'Opacity'),
@@ -65,7 +71,7 @@ export let activeConfig: Config = cloneConfig(defaultConfig);
 
 export function loadPreset(preset: PartialConfig) {
   // If something is missing, use the default
-  activeConfig = mergeDeep(cloneConfig(defaultConfig), cloneConfig(preset));
+  activeConfig = merge(cloneConfig(defaultConfig), cloneConfig(preset));
 }
 
 // ==== The presets ====

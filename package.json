@@ -8,11 +8,13 @@
   },
   "dependencies": {
     "canvas-confetti": "^1.2.0",
+    "lodash": "^4.17.21",
     "three": "^0.134.0"
   },
   "devDependencies": {
     "@snowpack/plugin-typescript": "^1.2.1",
     "@types/canvas-confetti": "^1.0.0",
+    "@types/lodash": "^4.14.178",
     "@types/snowpack-env": "^2.3.3",
     "@types/three": "^0.134.0",
     "prettier": "^2.2.1",

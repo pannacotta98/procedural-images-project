@@ -1,4 +1,5 @@
 import {
+  Color,
   IcosahedronGeometry,
   Mesh,
   ShaderMaterial,
@@ -23,6 +24,7 @@ export class Atmosphere implements SceneObject {
           time: { value: 0.0 },
           resolution: { value: new Vector2() }, // TODO fix
           opacity: { value: 0.0 },
+          color: { value: new Color() },
         },
       ]),
       vertexShader: vert,
@@ -38,6 +40,7 @@ export class Atmosphere implements SceneObject {
 
   update(time: number) {
     this.material.uniforms.time.value = time;
+    this.material.uniforms.color.value.set(activeConfig.atmosphere.color);
     this.material.uniforms.opacity.value = activeConfig.atmosphere.opacity;
     this.material.wireframe = activeConfig.atmosphere.wireframe;
   }
