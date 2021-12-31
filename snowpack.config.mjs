@@ -3,7 +3,7 @@ import glslify from 'snowpack-plugin-glslify';
 /** @type {import("snowpack").SnowpackUserConfig } */
 export default {
   mount: {
-    public: { url: '/', static: true },
+    public: { url: '/', static: true, dot: true },
     src: { url: '/dist' },
   },
   plugins: [
