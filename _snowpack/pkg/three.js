@@ -1,0 +1,1 @@
+export { B as BackSide, C as Clock, c as Color, D as DirectionalLight, I as IcosahedronGeometry, M as Mesh, P as PerspectiveCamera, S as Scene, a as ShaderMaterial, U as UniformsLib, b as UniformsUtils, V as Vector2, W as WebGLRenderer } from './common/three.module-00176e9a.js';

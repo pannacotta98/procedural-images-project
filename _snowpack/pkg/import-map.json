@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "lodash": "./lodash.js",
+    "three": "./three.js",
+    "three/examples/jsm/controls/OrbitControls": "./three/examples/jsm/controls/OrbitControls.js"
+  }
+}
