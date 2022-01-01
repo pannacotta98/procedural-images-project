@@ -7,22 +7,20 @@ uniform bool useExponentiation;
 
 out vec3 outNormal;
 out float radialOffset;
+out vec3 localPos;
 
 #pragma glslify: snoise = require(./../commonShader/noise3D)
-
-// Uniforms and attributes added by three.js
-// https://threejs.org/docs/#api/en/renderers/webgl/WebGLProgram
-// default vertex attributes provided by Geometry and BufferGeometry
-// attribute vec3 position;
-// attribute vec3 normal;
-// attribute vec2 uv;
+#pragma glslify: cellular = require(./../commonShader/cellular3D.glsl)
 
 float sampleHeight(vec3 pos) {
   float heightOffset = 0.0;
   float amp = 1.0;
   float freq = baseFreq;
   for(int i = 0; i < numOctaves; ++i) {
+    // heightOffset += amp * cellular(freq * pos).x;
     heightOffset += amp * snoise(freq * pos);
+    // heightOffset += amp * (1.0 - abs(snoise(freq * pos)));
+    // heightOffset += amp * (abs(snoise(freq * pos)));
     amp *= 0.5;
     freq *= 2.0;
   }
@@ -47,6 +45,8 @@ void main() {
   vec3 v1 = s1 - s3;
   vec3 v2 = s2 - s3;
   outNormal = normalMatrix * normalize(-cross(v1, v2));
+
+  localPos = position;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);
 }

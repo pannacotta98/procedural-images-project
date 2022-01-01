@@ -36,7 +36,7 @@ export class Water implements SceneObject {
     //   opacity: 0.8,
     //   transparent: true,
     // });
-    const geometry = new IcosahedronGeometry(1.04, 20);
+    const geometry = new IcosahedronGeometry(1.035, 20);
     this.object3D = new Mesh(geometry, this.material);
 
     // TODO Maybe use some callback that maybe exist in three.js

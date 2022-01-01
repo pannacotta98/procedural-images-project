@@ -94,3 +94,12 @@ presets.set('Water debug', {
     opacity: 0.0,
   },
 });
+
+presets.set('No clouds or atmosphere', {
+  atmosphere: {
+    opacity: 0,
+  },
+  clouds: {
+    opacity: 0.0,
+  },
+});
