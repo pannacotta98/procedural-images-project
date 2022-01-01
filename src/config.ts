@@ -48,7 +48,7 @@ export const configMetaData: ConfigMetaData = {
   terrain: {
     offsetScale: new ConfigFloatValMeta(0.001, 0.3, 'Offset scale'),
     numOctaves: new ConfigIntValMeta(1, 10, 'Number of octaves'),
-    baseFreq: new ConfigFloatValMeta(0.5, 10, 'Fundamental frequency'),
+    baseFreq: new ConfigFloatValMeta(0.5, 4, 'Fundamental frequency'),
     useExponentiation: new ConfigBoolValMeta('Use exponentiation'),
     wireframe: new ConfigBoolValMeta('Wireframe'),
   },

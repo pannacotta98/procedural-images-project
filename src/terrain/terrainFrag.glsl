@@ -9,6 +9,7 @@ in float radialOffset;
 
 vec3 objColor = vec3(0.57, 0.76, 0.23);
 vec3 snowColor = vec3(1.0, 1.0, 1.0);
+vec3 sandColor = vec3(0.93, 0.93, 0.66);
 vec3 mountainColor = vec3(0.5);
 float ambientFactor = 0.0;
 
@@ -33,19 +34,28 @@ vec3 diffuse(vec3 normal) {
   return diff * lightColor;
 }
 
+#define N_GRAD_STOPS 8
+
+vec3 multiStopGradient(float samplePos, float stopPos[N_GRAD_STOPS], vec3 stopColor[N_GRAD_STOPS]) {
+  // TODO Could this be unrolled by three.js to improve performance?
+  for(int i = 0; i < stopPos.length() - 1; ++i)
+    if(samplePos < stopPos[i + 1]) {
+      float t = (samplePos - stopPos[i]) / (stopPos[i + 1] - stopPos[i]);
+      return mix(stopColor[i], stopColor[i + 1], t);
+    }
+
+  // Don't want this
+  return vec3(1.0, 0.0, 1.0);
+}
+
 vec3 terrainTexture() {
-  float radialOffsetWithNoise = radialOffset + 0.005 * snoise(60.0 * localPos);
-  if(radialOffsetWithNoise > 0.075)
-    return snowColor;
-  if(radialOffsetWithNoise > 0.065)
-    return mix(mountainColor, snowColor, (radialOffsetWithNoise - 0.065) / (0.075 - 0.065));
-  else if(radialOffset > 0.055)
-    return mountainColor;
-  else if(radialOffset > 0.035)
-    return objColor;
-  else
-    return mix(vec3(0.3, 0.8, 1.0), vec3(0.0, 0.1, 0.7), -70.0 * (radialOffset - 0.035));
-  // return vec3(0.1, 0.1, 0.9);
+  float stopPos[N_GRAD_STOPS] = float[] (0.0, 0.035, 0.045, 0.055, 0.060, 0.07, 0.08, 1.0);
+  vec3 stopColor[N_GRAD_STOPS] = vec3[] (sandColor, sandColor, objColor, objColor, mountainColor, mountainColor, snowColor, snowColor);
+
+  return multiStopGradient(radialOffset, stopPos, stopColor);
+
+  // float radialOffsetWithNoise = radialOffset + 0.005 * snoise(10.0 * localPos);
+  // return multiStopGradient(radialOffsetWithNoise, stopPos, stopColor);
 }
 
 void main() {
