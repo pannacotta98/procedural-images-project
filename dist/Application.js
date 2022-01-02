@@ -27,7 +27,7 @@ export class Application {
     directionalLight.position.set(0, 0, 1);
     this.scene.add(directionalLight);
     this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1e3);
-    this.renderer = new WebGLRenderer({antialias: true});
+    this.renderer = new WebGLRenderer({antialias: true, alpha: true});
     this.renderer.physicallyCorrectLights = true;
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);

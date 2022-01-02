@@ -9,7 +9,7 @@ import starsFrag from "./starsFrag.js";
 import starsVert from "./starsVert.js";
 export class Sky {
   constructor() {
-    const geometry = new IcosahedronGeometry(30, 1);
+    const geometry = new IcosahedronGeometry(600, 1);
     const material = new ShaderMaterial({
       uniforms: {
         time: {value: 0},

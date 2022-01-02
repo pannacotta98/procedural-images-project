@@ -11,7 +11,7 @@ import {
 export class GUI {
   constructor() {
     this.controls = [];
-    this.initConfigToggles();
+    this.initConfigControls();
     this.initPresetList();
   }
   initPresetList() {
@@ -29,7 +29,7 @@ export class GUI {
       });
     }
   }
-  initConfigToggles() {
+  initConfigControls() {
     for (const [categoryName, categoryValues] of Object.entries(activeConfig)) {
       const containerId = categoryName + "-settings";
       const container = document.getElementById(containerId);

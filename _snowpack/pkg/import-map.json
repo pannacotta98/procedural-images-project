@@ -2,6 +2,7 @@
   "imports": {
     "lodash": "./lodash.js",
     "three": "./three.js",
-    "three/examples/jsm/controls/OrbitControls": "./three/examples/jsm/controls/OrbitControls.js"
+    "three/examples/jsm/controls/OrbitControls": "./three/examples/jsm/controls/OrbitControls.js",
+    "three/examples/jsm/objects/Lensflare": "./three/examples/jsm/objects/Lensflare.js"
   }
 }

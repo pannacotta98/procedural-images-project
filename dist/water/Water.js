@@ -25,7 +25,7 @@ export class Water {
       opacity: 0.5,
       lights: true
     });
-    const geometry = new IcosahedronGeometry(1.04, 20);
+    const geometry = new IcosahedronGeometry(1.035, 20);
     this.object3D = new Mesh(geometry, this.material);
   }
   update(time) {
