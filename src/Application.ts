@@ -3,6 +3,7 @@ import {
   DirectionalLight,
   PerspectiveCamera,
   Scene,
+  sRGBEncoding,
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -31,7 +32,8 @@ export class Application {
       1000, // far
     );
 
-    this.renderer = new WebGLRenderer({ antialias: true });
+    this.renderer = new WebGLRenderer({ antialias: true, alpha: true });
+    // this.renderer.outputEncoding = sRGBEncoding;
     // Using physicallyCorrectLights to get unscaled values in shader
     // I don't really do anything physically based though, hehe
     this.renderer.physicallyCorrectLights = true;

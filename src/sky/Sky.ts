@@ -13,7 +13,7 @@ export class Sky implements SceneObject {
   object3D: Mesh;
 
   constructor() {
-    const geometry = new IcosahedronGeometry(30, 1);
+    const geometry = new IcosahedronGeometry(600, 1);
     const material = new ShaderMaterial({
       uniforms: {
         time: { value: 0.0 }, // TODO Fix time; now works but is it done correctly?
