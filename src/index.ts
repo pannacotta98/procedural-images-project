@@ -32,7 +32,8 @@ application.addSceneObject(atmosphere);
 application.addSceneObject(sun);
 application.start();
 
-//@ts-ignore
-document.getElementsByClassName('loading-screen')[0].style.opacity = 0;
+(
+  document.getElementsByClassName('loading-screen')[0] as HTMLElement
+).style.opacity = '0';
 
-const gui = new GUI();
+new GUI();
