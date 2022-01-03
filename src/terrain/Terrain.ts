@@ -29,6 +29,7 @@ export class Terrain implements SceneObject {
           lacunarity: { value: activeConfig.terrain.lacunarity },
           persistance: { value: activeConfig.terrain.persistance },
           absInvert: { value: activeConfig.terrain.absInvert },
+          waterHeight: { value: activeConfig.water.height },
         },
       ]),
       vertexShader: vert,
@@ -49,6 +50,7 @@ export class Terrain implements SceneObject {
     this.material.uniforms.lacunarity.value = activeConfig.terrain.lacunarity;
     this.material.uniforms.persistance.value = activeConfig.terrain.persistance;
     this.material.uniforms.absInvert.value = activeConfig.terrain.absInvert;
+    this.material.uniforms.waterHeight.value = activeConfig.water.height;
     this.material.wireframe = activeConfig.terrain.wireframe;
   }
 }

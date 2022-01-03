@@ -1,3 +1,4 @@
+import { activeConfig } from './../config';
 import {
   IcosahedronGeometry,
   Mesh,
@@ -31,18 +32,16 @@ export class Water implements SceneObject {
       lights: true,
       // wireframe: true,
     });
-    // const material = new MeshLambertMaterial({
-    //   color: '#303097',
-    //   opacity: 0.8,
-    //   transparent: true,
-    // });
-    const geometry = new IcosahedronGeometry(1.035, 20);
+    const geometry = new IcosahedronGeometry(1, 20);
     this.object3D = new Mesh(geometry, this.material);
-
-    // TODO Maybe use some callback that maybe exist in three.js
   }
 
   update(time: number) {
-    this.material.uniforms.time.value = time;
+    this.material.uniforms.time.value = activeConfig.water.height;
+    this.object3D.scale.set(
+      activeConfig.water.height,
+      activeConfig.water.height,
+      activeConfig.water.height,
+    );
   }
 }
