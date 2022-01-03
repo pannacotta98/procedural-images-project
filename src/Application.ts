@@ -72,7 +72,7 @@ export class Application {
     this.controls.update();
 
     for (const obj of this.objects) {
-      obj.update(this.clock.getElapsedTime());
+      obj.update(this.clock.getElapsedTime(), this.renderer, this.camera);
     }
     this.renderer.render(this.scene, this.camera);
 

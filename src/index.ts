@@ -25,10 +25,10 @@ const sun = new Sun();
 
 const application = new Application();
 application.addSceneObject(sky);
+application.addSceneObject(atmosphere);
 application.addSceneObject(terrain);
 application.addSceneObject(water);
 application.addSceneObject(clouds);
-application.addSceneObject(atmosphere);
 application.addSceneObject(sun);
 application.start();
 
