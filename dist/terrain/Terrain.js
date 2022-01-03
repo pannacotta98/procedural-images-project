@@ -1,4 +1,5 @@
 import {
+  Color,
   IcosahedronGeometry,
   Mesh,
   ShaderMaterial,
@@ -20,7 +21,15 @@ export class Terrain {
           heightOffsetScale: {value: activeConfig.terrain.offsetScale},
           numOctaves: {value: activeConfig.terrain.numOctaves},
           baseFreq: {value: activeConfig.terrain.baseFreq},
-          useExponentiation: {value: activeConfig.terrain.useExponentiation}
+          exponent: {value: activeConfig.terrain.exponent},
+          lacunarity: {value: activeConfig.terrain.lacunarity},
+          persistance: {value: activeConfig.terrain.persistance},
+          absInvert: {value: activeConfig.terrain.absInvert},
+          waterHeight: {value: activeConfig.water.height},
+          landColor: {value: new Color()},
+          sandColor: {value: new Color()},
+          snowColor: {value: new Color()},
+          mountainColor: {value: new Color()}
         }
       ]),
       vertexShader: vert,
@@ -35,7 +44,15 @@ export class Terrain {
     this.material.uniforms.heightOffsetScale.value = activeConfig.terrain.offsetScale;
     this.material.uniforms.numOctaves.value = activeConfig.terrain.numOctaves;
     this.material.uniforms.baseFreq.value = activeConfig.terrain.baseFreq;
-    this.material.uniforms.useExponentiation.value = activeConfig.terrain.useExponentiation;
+    this.material.uniforms.exponent.value = activeConfig.terrain.exponent;
+    this.material.uniforms.lacunarity.value = activeConfig.terrain.lacunarity;
+    this.material.uniforms.persistance.value = activeConfig.terrain.persistance;
+    this.material.uniforms.absInvert.value = activeConfig.terrain.absInvert;
+    this.material.uniforms.waterHeight.value = activeConfig.water.height;
+    this.material.uniforms.landColor.value.set(activeConfig.terrain.landColor);
+    this.material.uniforms.sandColor.value.set(activeConfig.terrain.sandColor);
+    this.material.uniforms.snowColor.value.set(activeConfig.terrain.snowColor);
+    this.material.uniforms.mountainColor.value.set(activeConfig.terrain.mountainColor);
     this.material.wireframe = activeConfig.terrain.wireframe;
   }
 }

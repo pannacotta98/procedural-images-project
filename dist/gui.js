@@ -99,13 +99,18 @@ class Slider {
     this.inpEl.id = id;
     this.inpEl.className = "slider";
     container.append(this.inpEl);
+    this.valueDisp = document.createElement("span");
+    this.valueDisp.className = "slider-value";
+    label.append(this.valueDisp);
     this.update();
     this.inpEl.addEventListener("input", (event) => {
       activeConfig[this.cat][this.prop] = +event.target.value;
+      this.valueDisp.textContent = ": " + (+this.inpEl.value).toFixed(1);
     });
   }
   update() {
     this.inpEl.value = activeConfig[this.cat][this.prop];
+    this.valueDisp.textContent = ": " + (+this.inpEl.value).toFixed(1);
   }
 }
 class ColorSelect {

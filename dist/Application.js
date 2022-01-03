@@ -6,10 +6,12 @@ import {
   WebGLRenderer
 } from "../_snowpack/pkg/three.js";
 import {OrbitControls} from "../_snowpack/pkg/three/examples/jsm/controls/OrbitControls.js";
+import {activeConfig} from "./config.js";
 export class Application {
   constructor() {
     this.objects = [];
     this.animate = () => {
+      this.controls.autoRotate = activeConfig.camera.autoRotate;
       this.controls.update();
       for (const obj of this.objects) {
         obj.update(this.clock.getElapsedTime());
