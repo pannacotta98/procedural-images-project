@@ -2,29 +2,36 @@ uniform float time;
 uniform vec2 resolution;
 uniform float heightOffsetScale;
 uniform float baseFreq;
+uniform float persistance;
+uniform float lacunarity;
+uniform float exponent;
+uniform bool absInvert;
 uniform int numOctaves;
-uniform bool useExponentiation;
 
 out vec3 outNormal;
 out float radialOffset;
 out vec3 localPos;
 
 #pragma glslify: snoise = require(./../commonShader/noise3D)
-#pragma glslify: cellular = require(./../commonShader/cellular3D.glsl)
 
 float sampleHeight(vec3 pos) {
   float heightOffset = 0.0;
   float amp = 1.0;
   float freq = baseFreq;
+  float normalizeFactor = 0.0;
   for(int i = 0; i < numOctaves; ++i) {
-    // heightOffset += amp * cellular(freq * pos).x;
-    heightOffset += amp * snoise(freq * pos);
-    // heightOffset += amp * (1.0 - abs(snoise(freq * pos)));
-    // heightOffset += amp * (abs(snoise(freq * pos)));
-    amp *= 0.5;
-    freq *= 2.0;
+    if(absInvert) {
+      heightOffset += amp * (1.0 - abs(snoise(freq * pos)));
+    } else {
+      float noise = 0.5 + 0.5 * snoise(freq * pos);
+      heightOffset += amp * noise;
+    }
+    normalizeFactor += amp;
+    amp *= persistance;
+    freq *= lacunarity;
   }
-  return heightOffsetScale * ((useExponentiation) ? exp(heightOffset) : heightOffset);
+  heightOffset /= normalizeFactor;
+  return heightOffsetScale * pow(heightOffset, exponent);
 }
 
 void main() {

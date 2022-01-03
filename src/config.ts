@@ -3,11 +3,14 @@ import { merge } from 'lodash';
 
 const defaultConfig = {
   terrain: {
-    offsetScale: 0.04,
+    offsetScale: 0.3,
     numOctaves: 8,
+    lacunarity: 2.0,
+    persistance: 0.5,
     baseFreq: 1.2,
-    useExponentiation: true,
+    exponent: 3.0,
     wireframe: false,
+    absInvert: false,
   },
   atmosphere: {
     opacity: 0.2,
@@ -50,11 +53,14 @@ export type ConfigMetaData = {
 };
 export const configMetaData: ConfigMetaData = {
   terrain: {
-    offsetScale: new ConfigFloatValMeta(0.001, 0.3, 'Offset scale'),
+    offsetScale: new ConfigFloatValMeta(0.001, 1.0, 'Offset scale'),
     numOctaves: new ConfigIntValMeta(1, 10, 'Number of octaves'),
+    lacunarity: new ConfigFloatValMeta(1.1, 3, 'Lacunarity'),
+    persistance: new ConfigFloatValMeta(0.1, 0.7, 'Persistance'),
     baseFreq: new ConfigFloatValMeta(0.5, 4, 'Fundamental frequency'),
-    useExponentiation: new ConfigBoolValMeta('Use exponentiation'),
+    exponent: new ConfigFloatValMeta(0.01, 5, 'Exponent'),
     wireframe: new ConfigBoolValMeta('Wireframe'),
+    absInvert: new ConfigBoolValMeta('Abs invert'),
   },
   atmosphere: {
     wireframe: new ConfigBoolValMeta('Wireframe'),
@@ -91,7 +97,6 @@ presets.set('Water debug', {
   terrain: {
     offsetScale: 0.0,
     numOctaves: 1,
-    useExponentiation: true,
     wireframe: false,
   },
   atmosphere: {
