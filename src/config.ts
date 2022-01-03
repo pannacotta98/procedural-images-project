@@ -11,6 +11,10 @@ const defaultConfig = {
     exponent: 3.0,
     wireframe: false,
     absInvert: false,
+    snowColor: '#ffffff',
+    mountainColor: '#808080',
+    landColor: '#94C245',
+    sandColor: '#ECECAB',
   },
   atmosphere: {
     opacity: 0.2,
@@ -23,6 +27,7 @@ const defaultConfig = {
   },
   water: {
     height: 1.035,
+    color: '#318FD7',
   },
   camera: {
     autoRotate: false,
@@ -64,6 +69,10 @@ export const configMetaData: ConfigMetaData = {
     exponent: new ConfigFloatValMeta(0.01, 5, 'Exponent'),
     wireframe: new ConfigBoolValMeta('Wireframe'),
     absInvert: new ConfigBoolValMeta('Abs invert'),
+    snowColor: new ConfigColorValMeta('Snow color'),
+    mountainColor: new ConfigColorValMeta('Mountains color'),
+    landColor: new ConfigColorValMeta('Land color'),
+    sandColor: new ConfigColorValMeta('Sand color'),
   },
   atmosphere: {
     wireframe: new ConfigBoolValMeta('Wireframe'),
@@ -76,6 +85,7 @@ export const configMetaData: ConfigMetaData = {
   },
   water: {
     height: new ConfigFloatValMeta(0.98, 1.1, 'Height'),
+    color: new ConfigColorValMeta('Color'),
   },
   camera: {
     autoRotate: new ConfigBoolValMeta('Auto-rotate'),
@@ -94,31 +104,43 @@ export function loadPreset(preset: PartialConfig) {
   activeConfig = merge(cloneConfig(defaultConfig), cloneConfig(preset));
 }
 
+export function configAsJSON() {
+  return JSON.stringify(activeConfig);
+}
+
 // ==== The presets ====
 export const presets = new Map<string, PartialConfig>();
 
 presets.set('Default', defaultConfig);
 
 presets.set('Water debug', {
-  terrain: {
-    offsetScale: 0.0,
-    numOctaves: 1,
-    wireframe: false,
-  },
-  atmosphere: {
-    wireframe: false,
-    opacity: 0,
-  },
-  clouds: {
-    opacity: 0.0,
-  },
+  terrain: { offsetScale: 0.0, numOctaves: 1, wireframe: false },
+  atmosphere: { wireframe: false, opacity: 0 },
+  clouds: { opacity: 0.0 },
 });
 
 presets.set('No clouds or atmosphere', {
-  atmosphere: {
-    opacity: 0,
+  atmosphere: { opacity: 0 },
+  clouds: { opacity: 0.0 },
+});
+
+presets.set('Ceeeraazyy', {
+  terrain: {
+    offsetScale: 0.3,
+    numOctaves: 8,
+    lacunarity: 2,
+    persistance: 0.5,
+    baseFreq: 1.2,
+    exponent: 3,
+    wireframe: false,
+    absInvert: false,
+    snowColor: '#ff0000',
+    mountainColor: '#00ff04',
+    landColor: '#c70000',
+    sandColor: '#ffffff',
   },
-  clouds: {
-    opacity: 0.0,
-  },
+  atmosphere: { opacity: 0.09, wireframe: false, color: '#ff00f7' },
+  clouds: { opacity: 0, height: 1.1 },
+  water: { height: 1.0088 },
+  camera: { autoRotate: false },
 });

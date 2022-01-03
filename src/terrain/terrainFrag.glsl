@@ -1,6 +1,10 @@
 uniform float time;
 uniform vec2 resolution;
 uniform float waterHeight;
+uniform vec3 landColor;
+uniform vec3 snowColor;
+uniform vec3 sandColor;
+uniform vec3 mountainColor;
 
 in vec3 outNormal;
 in vec3 localPos;
@@ -8,10 +12,6 @@ in float radialOffset;
 
 #pragma glslify: snoise = require(./../commonShader/noise3D)
 
-vec3 objColor = vec3(0.57, 0.76, 0.23);
-vec3 snowColor = vec3(1.0, 1.0, 1.0);
-vec3 sandColor = vec3(0.93, 0.93, 0.66);
-vec3 mountainColor = vec3(0.5);
 float ambientFactor = 0.0;
 
 #if NUM_DIR_LIGHTS > 0
@@ -54,7 +54,7 @@ vec3 terrainTexture() {
   for(int i = 0; i < N_GRAD_STOPS; ++i) {
     stopPos[i] += (waterHeight - 1.0) - 0.035;
   }
-  vec3 stopColor[N_GRAD_STOPS] = vec3[] (sandColor, sandColor, objColor, objColor, mountainColor, mountainColor, snowColor, snowColor);
+  vec3 stopColor[N_GRAD_STOPS] = vec3[] (sandColor, sandColor, landColor, landColor, mountainColor, mountainColor, snowColor, snowColor);
 
   return multiStopGradient(radialOffset, stopPos, stopColor);
 

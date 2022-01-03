@@ -16,7 +16,7 @@ body {
   letter-spacing: 0.05rem;
   line-height: 1.4;
 
-  font-size: 10pt;
+  font-size: 9.5pt;
 
   /* Increase readability by making background darker around text */
   text-shadow: 0px 0px 30px rgba(0, 0, 0, 1), 0px 0px 10px rgba(0, 0, 0, 1),
@@ -28,9 +28,8 @@ body {
   padding: 2rem 0 2rem 2rem;
   position: fixed;
   height: 100vh;
-  width: 25vw;
+  width: 20rem;
   overflow-y: auto;
-  max-width: 20rem;
   background: linear-gradient(
     90deg,
     rgba(0, 0, 0, 0.7847769028871391) 0%,
@@ -102,6 +101,10 @@ a {
 
 .preset-item:hover {
   color: var(--accent);
+}
+
+.slider-value {
+  color: var(--bright-text-color);
 }
 
 .loading-screen {

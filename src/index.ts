@@ -6,6 +6,7 @@ import { GUI } from './gui';
 import { Clouds } from './clouds/Clouds';
 import { Atmosphere } from './atmosphere/Atmosphere';
 import { Sun } from './sun/Sun';
+import { configAsJSON } from './config';
 
 // Could this font be nice maybe?
 // https://www.behance.net/gallery/33704618/ANURATI-Free-font
@@ -37,3 +38,6 @@ application.start();
 ).style.opacity = '0';
 
 new GUI();
+
+// Just as a convenience for me
+(window as any).configAsJSON = configAsJSON;

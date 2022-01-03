@@ -1,5 +1,6 @@
 import { activeConfig } from './../config';
 import {
+  Color,
   IcosahedronGeometry,
   Mesh,
   ShaderMaterial,
@@ -23,6 +24,7 @@ export class Water implements SceneObject {
           time: { value: 0.0 },
           resolution: { value: new Vector2() }, // TODO fix
           heightOffsetScale: { value: 0.03 },
+          color: { value: new Color() },
         },
       ]),
       vertexShader: vert,
@@ -38,6 +40,7 @@ export class Water implements SceneObject {
 
   update(time: number) {
     this.material.uniforms.time.value = activeConfig.water.height;
+    this.material.uniforms.color.value.set(activeConfig.water.color);
     this.object3D.scale.set(
       activeConfig.water.height,
       activeConfig.water.height,

@@ -130,6 +130,7 @@ class Slider implements Control {
   inpEl: HTMLInputElement;
   prop: string;
   cat: string;
+  valueDisp: HTMLSpanElement;
 
   constructor(
     meta: ConfigFloatValMeta | ConfigIntValMeta,
@@ -159,17 +160,23 @@ class Slider implements Control {
     this.inpEl.className = 'slider';
     container.append(this.inpEl);
 
+    this.valueDisp = document.createElement('span');
+    this.valueDisp.className = 'slider-value';
+    label.append(this.valueDisp);
+
     this.update();
 
     this.inpEl.addEventListener('input', (event) => {
       // @ts-ignore
       activeConfig[this.cat][this.prop] = +event.target.value;
+      this.valueDisp.textContent = ': ' + (+this.inpEl.value).toFixed(1);
     });
   }
 
   update() {
     // @ts-ignore heheheh
     this.inpEl.value = activeConfig[this.cat][this.prop];
+    this.valueDisp.textContent = ': ' + (+this.inpEl.value).toFixed(1);
   }
 }
 

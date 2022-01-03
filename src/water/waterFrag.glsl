@@ -1,13 +1,12 @@
 uniform float time;
 uniform vec2 resolution;
+uniform vec3 color;
 
 in vec3 outNormal;
 in vec3 vertPos;
 in vec3 vertWorldPos;
 
 #pragma glslify: psrdnoise = require(./../commonShader/psrdnoise3-min.glsl)
-
-vec3 objColor = vec3(0.07, 0.55, 0.85);
 
 #if NUM_DIR_LIGHTS > 0
 struct DirectionalLight {
@@ -46,6 +45,6 @@ void main() {
   vec3 gradientProjOnTangentPlane = gradient - dot(gradient, outNormal) * outNormal;
   vec3 newNormal = normalize(outNormal - displaceAmount * gradientProjOnTangentPlane);
 
-  vec3 result = diffuse(newNormal) * objColor + specular(newNormal);
+  vec3 result = diffuse(newNormal) * color + specular(newNormal);
   gl_FragColor = vec4(result, 0.7);
 }
