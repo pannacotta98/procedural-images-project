@@ -17,6 +17,9 @@ const defaultConfig = {
   clouds: {
     opacity: 1.0,
   },
+  camera: {
+    autoRotate: false,
+  },
 };
 
 type Config = typeof defaultConfig;
@@ -59,6 +62,9 @@ export const configMetaData: ConfigMetaData = {
   },
   clouds: {
     opacity: new ConfigFloatValMeta(0, 1, 'Opacity'),
+  },
+  camera: {
+    autoRotate: new ConfigBoolValMeta('Auto-rotate'),
   },
 };
 

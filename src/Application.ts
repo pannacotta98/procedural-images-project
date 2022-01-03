@@ -7,6 +7,7 @@ import {
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { activeConfig } from './config';
 import type { SceneObject } from './SceneObject';
 
 export class Application {
@@ -66,6 +67,7 @@ export class Application {
 
   // Arrow function to bind this so it can be invoked from requestAnimationFrame
   animate = () => {
+    this.controls.autoRotate = activeConfig.camera.autoRotate;
     // Required if controls.enableDamping or controls.autoRotate are set to true
     this.controls.update();
 
