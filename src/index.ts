@@ -6,7 +6,7 @@ import { GUI } from './gui';
 import { Clouds } from './clouds/Clouds';
 import { Atmosphere } from './atmosphere/Atmosphere';
 import { Sun } from './sun/Sun';
-import { configAsJSON } from './config';
+import { activeConfig, configAsJSON, presets, loadPreset } from './config';
 
 // Could this font be nice maybe?
 // https://www.behance.net/gallery/33704618/ANURATI-Free-font
@@ -16,6 +16,22 @@ import { configAsJSON } from './config';
 // Equinox – Minimal Display Font
 // Maybe I'll get some cute font instead depending on the look of
 // the planet.
+
+// So i can use in iframes in presentation
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+if (urlParams.has('nogui')) {
+  (
+    document.getElementById('side-panel-container') as HTMLElement
+  ).style.opacity = '0';
+  activeConfig.camera.autoRotate = true;
+
+  const presetStr = urlParams.get('preset');
+  if (presetStr) {
+    const preset = presets.get(presetStr);
+    if (preset) loadPreset(preset);
+  }
+}
 
 const sky = new Sky();
 const terrain = new Terrain();
