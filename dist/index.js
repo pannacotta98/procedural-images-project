@@ -6,7 +6,19 @@ import {GUI} from "./gui.js";
 import {Clouds} from "./clouds/Clouds.js";
 import {Atmosphere} from "./atmosphere/Atmosphere.js";
 import {Sun} from "./sun/Sun.js";
-import {configAsJSON} from "./config.js";
+import {activeConfig, configAsJSON, presets, loadPreset} from "./config.js";
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+if (urlParams.has("nogui")) {
+  document.getElementById("side-panel-container").style.opacity = "0";
+  activeConfig.camera.autoRotate = true;
+  const presetStr = urlParams.get("preset");
+  if (presetStr) {
+    const preset = presets.get(presetStr);
+    if (preset)
+      loadPreset(preset);
+  }
+}
 const sky = new Sky();
 const terrain = new Terrain();
 const water = new Water();
