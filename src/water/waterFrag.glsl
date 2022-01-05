@@ -58,7 +58,7 @@ void main() {
     float freqScale = wavesSize / 11.8;
     float displaceAmount = 10.0 * wavesIntensity;
     vec3 gradient = vec3(0.0);
-    float noise = psrdnoise(vertWorldPos * freqScale, vec3(10.0), wavesSpeed * time, gradient);
+    psrdnoise(vertWorldPos * freqScale, vec3(10.0), wavesSpeed * time, gradient);
 
     vec3 gradientProjOnTangentPlane = gradient - dot(gradient, outNormal) * outNormal;
     finalNormal = normalize(outNormal - displaceAmount * gradientProjOnTangentPlane);
@@ -83,6 +83,7 @@ void main() {
 }
 
 // Some help from https://stegu.github.io/psrdnoise/3d-gallery/wobblysphere-threejs.html
+// In case i would want to add multiple octaves of the noise
 	// const float bumpamount = 0.05;
 
 	// // Bump map surface
