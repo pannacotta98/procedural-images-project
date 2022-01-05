@@ -8,16 +8,8 @@ import { Atmosphere } from './atmosphere/Atmosphere';
 import { Sun } from './sun/Sun';
 import { activeConfig, configAsJSON, presets, loadPreset } from './config';
 
-// Could this font be nice maybe?
-// https://www.behance.net/gallery/33704618/ANURATI-Free-font
-// https://www.behance.net/gallery/56035831/Alexana-Neue-Free-Font
-// https://www.behance.net/gallery/36169711/Exan-3-Free-Font
-// https://www.dafont.com/rezland.font
-// Equinox – Minimal Display Font
-// Maybe I'll get some cute font instead depending on the look of
-// the planet.
-
 // So i can use in iframes in presentation
+// and to help when developing
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const presetStr = urlParams.get('preset');
@@ -52,6 +44,15 @@ new GUI();
 
 // Just as a convenience for me
 (window as any).configAsJSON = configAsJSON;
+
+// Hide scrolling reminder if at bottom
+const sidePanel = document.getElementById('side-panel-container')!;
+sidePanel.onscroll = () => {
+  const scrollReminder = document.getElementById('scroll-reminder')!;
+  const isAtBottom =
+    sidePanel.scrollTop === sidePanel.scrollHeight - sidePanel.clientHeight;
+  scrollReminder.style.opacity = isAtBottom ? '0' : '1';
+};
 
 // Remove loading screen
 (
