@@ -40,8 +40,8 @@ export class Water implements SceneObject {
       lights: true,
       // wireframe: true,
     });
-    // const geometry = new IcosahedronGeometry(1, 90);
-    const geometry = new SphereGeometry(1, 500, 500);
+    const geometry = new IcosahedronGeometry(1, 150);
+    // const geometry = new SphereGeometry(1, 500, 500);
     this.object3D = new Mesh(geometry, this.material);
   }
 

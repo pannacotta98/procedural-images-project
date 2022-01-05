@@ -35,7 +35,7 @@ export class Atmosphere implements SceneObject {
       wireframe: activeConfig.atmosphere.wireframe,
     });
 
-    const geometry = new IcosahedronGeometry(1.12, 10);
+    const geometry = new IcosahedronGeometry(1, 10);
     this.object3D = new Mesh(geometry, this.material);
   }
 
@@ -45,5 +45,8 @@ export class Atmosphere implements SceneObject {
     this.material.uniforms.opacity.value = activeConfig.atmosphere.opacity;
     this.material.wireframe = activeConfig.atmosphere.wireframe;
     this.material.uniforms.fresnel.value = activeConfig.atmosphere.fresnel;
+
+    const scale = Math.max(activeConfig.clouds.height + 0.01, 1.12);
+    this.object3D.scale.set(scale, scale, scale);
   }
 }
