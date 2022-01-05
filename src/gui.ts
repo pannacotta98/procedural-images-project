@@ -169,14 +169,14 @@ class Slider implements Control {
     this.inpEl.addEventListener('input', (event) => {
       // @ts-ignore
       activeConfig[this.cat][this.prop] = +event.target.value;
-      this.valueDisp.textContent = ': ' + (+this.inpEl.value).toFixed(1);
+      this.valueDisp.textContent = ': ' + this.inpEl.value;
     });
   }
 
   update() {
     // @ts-ignore heheheh
     this.inpEl.value = activeConfig[this.cat][this.prop];
-    this.valueDisp.textContent = ': ' + (+this.inpEl.value).toFixed(1);
+    this.valueDisp.textContent = ': ' + this.inpEl.value;
   }
 }
 
