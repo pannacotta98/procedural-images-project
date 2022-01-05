@@ -37,14 +37,19 @@ vec3 specular(vec3 normal) {
 }
 
 void main() {
-  float freqScale = 10.0;
-  float displaceAmount = 0.02;
-  vec3 gradient = vec3(0.0);
-  float noise = psrdnoise(vertWorldPos * freqScale, vec3(10.0), 2.0 * time, gradient);
+  // float freqScale = 10.0;
+  // float displaceAmount = 0.02;
+  // vec3 gradient = vec3(0.0);
+  // float noise = psrdnoise(vertWorldPos * freqScale, vec3(10.0), 2.0 * time, gradient);
 
-  vec3 gradientProjOnTangentPlane = gradient - dot(gradient, outNormal) * outNormal;
-  vec3 newNormal = normalize(outNormal - displaceAmount * gradientProjOnTangentPlane);
+  // vec3 gradientProjOnTangentPlane = gradient - dot(gradient, outNormal) * outNormal;
+  // vec3 newNormal = normalize(outNormal - displaceAmount * gradientProjOnTangentPlane);
 
-  vec3 result = diffuse(newNormal) * color + specular(newNormal);
-  gl_FragColor = vec4(result, 0.7);
+  // vec3 result = diffuse(newNormal) * color + specular(newNormal);
+  // gl_FragColor = vec4(result, 0.7);
+
+  vec3 result = diffuse(outNormal) * color + specular(outNormal);
+  gl_FragColor = vec4(result, 1.0);
+
+  // gl_FragColor = vec4(0.5 + 0.5 * outNormal, 1.0);
 }

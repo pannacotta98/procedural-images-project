@@ -4,6 +4,7 @@ import {
   IcosahedronGeometry,
   Mesh,
   ShaderMaterial,
+  SphereGeometry,
   UniformsLib,
   UniformsUtils,
   Vector2,
@@ -30,16 +31,16 @@ export class Water implements SceneObject {
       vertexShader: vert,
       fragmentShader: frag,
       transparent: true,
-      opacity: 0.5,
       lights: true,
       // wireframe: true,
     });
-    const geometry = new IcosahedronGeometry(1, 20);
+    // const geometry = new IcosahedronGeometry(1, 90);
+    const geometry = new SphereGeometry(1, 500, 500);
     this.object3D = new Mesh(geometry, this.material);
   }
 
   update(time: number) {
-    this.material.uniforms.time.value = activeConfig.water.height;
+    this.material.uniforms.time.value = time;
     this.material.uniforms.color.value.set(activeConfig.water.color);
     this.object3D.scale.set(
       activeConfig.water.height,

@@ -23,7 +23,7 @@ const urlParams = new URLSearchParams(queryString);
 if (urlParams.has('nogui')) {
   (
     document.getElementById('side-panel-container') as HTMLElement
-  ).style.opacity = '0';
+  ).style.display = 'none';
   activeConfig.camera.autoRotate = true;
 
   const presetStr = urlParams.get('preset');
