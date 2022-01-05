@@ -105,12 +105,12 @@ class Slider {
     this.update();
     this.inpEl.addEventListener("input", (event) => {
       activeConfig[this.cat][this.prop] = +event.target.value;
-      this.valueDisp.textContent = ": " + (+this.inpEl.value).toFixed(1);
+      this.valueDisp.textContent = ": " + this.inpEl.value;
     });
   }
   update() {
     this.inpEl.value = activeConfig[this.cat][this.prop];
-    this.valueDisp.textContent = ": " + (+this.inpEl.value).toFixed(1);
+    this.valueDisp.textContent = ": " + this.inpEl.value;
   }
 }
 class ColorSelect {

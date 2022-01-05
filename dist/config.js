@@ -25,7 +25,13 @@ const defaultConfig = {
   },
   water: {
     height: 1.035,
-    color: "#318FD7"
+    wavesIntensity: 2e-3,
+    wavesSize: 120,
+    wavesSpeed: 3,
+    opacity: 0.7,
+    color: "#318FD7",
+    useFresnel: true,
+    useTrochoidalWaves: false
   },
   camera: {
     autoRotate: false
@@ -80,8 +86,14 @@ export const configMetaData = {
     height: new ConfigFloatValMeta(0.9, 1.3, "Height")
   },
   water: {
-    height: new ConfigFloatValMeta(0.98, 1.1, "Height"),
-    color: new ConfigColorValMeta("Color")
+    height: new ConfigFloatValMeta(0.98, 1.1, "Water level"),
+    wavesIntensity: new ConfigFloatValMeta(0, 4e-3, "Wave height"),
+    wavesSize: new ConfigFloatValMeta(30, 400, "Wave scale"),
+    wavesSpeed: new ConfigFloatValMeta(0, 10, "Wave speed"),
+    opacity: new ConfigFloatValMeta(0, 1, "Opacity"),
+    color: new ConfigColorValMeta("Color"),
+    useFresnel: new ConfigBoolValMeta("Use Fresnel"),
+    useTrochoidalWaves: new ConfigBoolValMeta("Trochoidal waves")
   },
   camera: {
     autoRotate: new ConfigBoolValMeta("Auto-rotate")

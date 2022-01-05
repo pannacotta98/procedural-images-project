@@ -1,4 +1,4 @@
-import { M as Mesh, h as MeshBasicMaterial, i as DataTexture, R as RGBFormat, N as NearestFilter, j as ClampToEdgeWrapping, k as RawShaderMaterial, a as Color, V as Vector2, d as Vector3, A as AdditiveBlending, l as BufferGeometry, m as InterleavedBuffer, n as InterleavedBufferAttribute, o as Box2, p as Vector4 } from '../../../../common/three.module-d168c763.js';
+import { M as Mesh, i as MeshBasicMaterial, j as DataTexture, R as RGBFormat, N as NearestFilter, k as ClampToEdgeWrapping, l as RawShaderMaterial, a as Color, V as Vector2, e as Vector3, A as AdditiveBlending, m as BufferGeometry, n as InterleavedBuffer, o as InterleavedBufferAttribute, p as Box2, q as Vector4 } from '../../../../common/three.module-ac383378.js';
 
 class Lensflare extends Mesh {
 
