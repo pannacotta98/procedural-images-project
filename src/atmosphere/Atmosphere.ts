@@ -25,6 +25,7 @@ export class Atmosphere implements SceneObject {
           resolution: { value: new Vector2() }, // TODO fix
           opacity: { value: 0.0 },
           color: { value: new Color() },
+          fresnel: { value: 1.0 },
         },
       ]),
       vertexShader: vert,
@@ -43,5 +44,6 @@ export class Atmosphere implements SceneObject {
     this.material.uniforms.color.value.set(activeConfig.atmosphere.color);
     this.material.uniforms.opacity.value = activeConfig.atmosphere.opacity;
     this.material.wireframe = activeConfig.atmosphere.wireframe;
+    this.material.uniforms.fresnel.value = activeConfig.atmosphere.fresnel;
   }
 }

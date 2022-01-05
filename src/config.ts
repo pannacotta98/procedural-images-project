@@ -17,9 +17,10 @@ const defaultConfig = {
     sandColor: '#ECECAB',
   },
   atmosphere: {
-    opacity: 0.2,
+    opacity: 0.5,
+    fresnel: 3,
     wireframe: false,
-    color: '#eeeeee',
+    color: '#1f75ff',
   },
   clouds: {
     opacity: 1.0,
@@ -83,6 +84,7 @@ export const configMetaData: ConfigMetaData = {
   atmosphere: {
     wireframe: new ConfigBoolValMeta('Wireframe'),
     opacity: new ConfigFloatValMeta(0, 1, 'Opacity'),
+    fresnel: new ConfigFloatValMeta(0, 10, 'Fresnel'),
     color: new ConfigColorValMeta('Color'),
   },
   clouds: {
