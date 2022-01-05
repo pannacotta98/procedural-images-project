@@ -1,9 +1,9 @@
 import {activeConfig} from "../config.js";
 import {
   Color,
+  IcosahedronGeometry,
   Mesh,
   ShaderMaterial,
-  SphereGeometry,
   UniformsLib,
   UniformsUtils,
   Vector2
@@ -33,7 +33,7 @@ export class Water {
       transparent: true,
       lights: true
     });
-    const geometry = new SphereGeometry(1, 500, 500);
+    const geometry = new IcosahedronGeometry(1, 150);
     this.object3D = new Mesh(geometry, this.material);
   }
   update(time) {

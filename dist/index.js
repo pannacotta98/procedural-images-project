@@ -35,4 +35,10 @@ application.addSceneObject(sun);
 application.start();
 new GUI();
 window.configAsJSON = configAsJSON;
+const sidePanel = document.getElementById("side-panel-container");
+sidePanel.onscroll = () => {
+  const scrollReminder = document.getElementById("scroll-reminder");
+  const isAtBottom = sidePanel.scrollTop === sidePanel.scrollHeight - sidePanel.clientHeight;
+  scrollReminder.style.opacity = isAtBottom ? "0" : "1";
+};
 document.getElementsByClassName("loading-screen")[0].style.opacity = "0";
