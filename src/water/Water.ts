@@ -4,7 +4,6 @@ import {
   IcosahedronGeometry,
   Mesh,
   ShaderMaterial,
-  SphereGeometry,
   UniformsLib,
   UniformsUtils,
   Vector2,
@@ -41,7 +40,6 @@ export class Water implements SceneObject {
       // wireframe: true,
     });
     const geometry = new IcosahedronGeometry(1, 150);
-    // const geometry = new SphereGeometry(1, 500, 500);
     this.object3D = new Mesh(geometry, this.material);
   }
 

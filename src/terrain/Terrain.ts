@@ -16,7 +16,7 @@ export class Terrain implements SceneObject {
   object3D: Mesh;
   material: ShaderMaterial;
 
-  constructor() {
+  constructor(highPolygonMode = false) {
     this.material = new ShaderMaterial({
       uniforms: UniformsUtils.merge([
         UniformsLib['lights'],
@@ -42,7 +42,7 @@ export class Terrain implements SceneObject {
       lights: true,
       wireframe: activeConfig.terrain.wireframe,
     });
-    const geometry = new IcosahedronGeometry(1, 200);
+    const geometry = new IcosahedronGeometry(1, highPolygonMode ? 300 : 100);
     this.object3D = new Mesh(geometry, this.material);
   }
 
