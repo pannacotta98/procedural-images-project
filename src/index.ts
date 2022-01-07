@@ -14,21 +14,7 @@ import {
   hiddenPresets,
 } from './config';
 
-// So i can use in iframes in presentation
-// and to help when developing
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const presetStr = urlParams.get('preset');
-if (presetStr) {
-  const preset = presets.get(presetStr) || hiddenPresets.get(presetStr);
-  if (preset) loadPreset(preset);
-}
-if (urlParams.has('nogui')) {
-  (
-    document.getElementById('side-panel-container') as HTMLElement
-  ).style.display = 'none';
-  activeConfig.camera.autoRotate = true;
-}
+readUrlParams();
 
 const sky = new Sky();
 const terrain = new Terrain();
@@ -61,6 +47,30 @@ sidePanel.onscroll = () => {
 };
 
 // Remove loading screen
-(
-  document.getElementsByClassName('loading-screen')[0] as HTMLElement
-).style.opacity = '0';
+document.getElementById('loading-screen')!.style.opacity = '0';
+
+// Move scroll reminder to the right of scrollbar
+const child = document.getElementById('side-panel')!;
+const scrollbarWidth =
+  (child.parentNode as HTMLElement).offsetWidth - child.offsetWidth;
+console.log(child.style.padding);
+document.getElementById('scroll-reminder')!.style.left =
+  scrollbarWidth.toString() + 'px';
+
+function readUrlParams() {
+  // So i can use in iframes in presentation
+  // and to help when developing
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const presetStr = urlParams.get('preset');
+  if (presetStr) {
+    const preset = presets.get(presetStr) || hiddenPresets.get(presetStr);
+    if (preset) loadPreset(preset);
+  }
+  if (urlParams.has('nogui')) {
+    (
+      document.getElementById('side-panel-container') as HTMLElement
+    ).style.display = 'none';
+    activeConfig.camera.autoRotate = true;
+  }
+}

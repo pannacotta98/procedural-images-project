@@ -42,7 +42,7 @@ export class Terrain implements SceneObject {
       lights: true,
       wireframe: activeConfig.terrain.wireframe,
     });
-    const geometry = new IcosahedronGeometry(1, 100);
+    const geometry = new IcosahedronGeometry(1, 200);
     this.object3D = new Mesh(geometry, this.material);
   }
 
