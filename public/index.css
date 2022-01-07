@@ -147,7 +147,7 @@ a {
 }
 
 .preset-item:before {
-  content: '» ';
+  content: '\\ ';
 }
 
 .preset-item:hover {

@@ -59,7 +59,7 @@ vec3 trochoidalWaves(vec3 position, out vec3 normal) {
   Ps += _trochoidalPosiSumTerm(v, 0.9 * wavesIntensity, 0.7 * wavesSize, l, 1.3 * wavesSpeed, Q, d);
   ns += _trochoidalNormSumTerm(v, 0.9 * wavesIntensity, 0.7 * wavesSize, l, 1.3 * wavesSpeed, Q, d);
 
-  o = -normalize(vec3(0.0, 1.0, 0.0));
+  o = -normalize(vec3(0.02, 1.0, 0.1));
   d = cross(v, cross((v - o), v));
   l = acos(dot(v, o)) * r;
   // Q = 0.9 * smoothstep(0.1, 0.11, 1.0 - abs(dot(v, o)));

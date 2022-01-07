@@ -53,7 +53,7 @@ void main() {
   vec3 s3 = (1.0 + sampleHeight(p3)) * p3;
   vec3 v1 = s1 - s3;
   vec3 v2 = s2 - s3;
-  outNormal = normalMatrix * normalize(-cross(v1, v2));
+  outNormal = normalMatrix * normalize(cross(v2, v1));
 
   localPos = position;
 
