@@ -37,11 +37,13 @@ float sampleHeight(vec3 pos) {
 void main() {
   radialOffset = sampleHeight(position);
 
+  vec3 n = normalize(position);
+
   // Sample height near the point to calculate gradient using
   // the triangle method
   float offsetLength = 0.001;
-  vec3 tangent1 = normalize(cross(normal, vec3(1.0, 0.0, 0.01)));
-  vec3 tangent2 = normalize(cross(tangent1, normal));
+  vec3 tangent1 = normalize(cross(n, vec3(1.0, 0.0, 0.01)));
+  vec3 tangent2 = normalize(cross(tangent1, n));
   vec3 tangent3 = normalize(-(tangent1 + tangent2));
   vec3 p1 = normalize(position + tangent1 * offsetLength);
   vec3 p2 = normalize(position + tangent2 * offsetLength);
@@ -55,5 +57,5 @@ void main() {
 
   localPos = position;
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * n, 1.0);
 }
