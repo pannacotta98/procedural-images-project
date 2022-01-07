@@ -11,7 +11,7 @@ import vert from "./terrainVert.js";
 import frag from "./terrainFrag.js";
 import {activeConfig} from "../config.js";
 export class Terrain {
-  constructor() {
+  constructor(highPolygonMode = false) {
     this.material = new ShaderMaterial({
       uniforms: UniformsUtils.merge([
         UniformsLib["lights"],
@@ -37,7 +37,7 @@ export class Terrain {
       lights: true,
       wireframe: activeConfig.terrain.wireframe
     });
-    const geometry = new IcosahedronGeometry(1, 200);
+    const geometry = new IcosahedronGeometry(1, highPolygonMode ? 300 : 100);
     this.object3D = new Mesh(geometry, this.material);
   }
   update(time) {

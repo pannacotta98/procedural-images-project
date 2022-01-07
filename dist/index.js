@@ -13,9 +13,9 @@ import {
   loadPreset,
   hiddenPresets
 } from "./config.js";
-readUrlParams();
+const {highPolygonMode} = readUrlParams();
 const sky = new Sky();
-const terrain = new Terrain();
+const terrain = new Terrain(highPolygonMode);
 const water = new Water();
 const clouds = new Clouds();
 const atmosphere = new Atmosphere();
@@ -54,4 +54,5 @@ function readUrlParams() {
     document.getElementById("side-panel-container").style.display = "none";
     activeConfig.camera.autoRotate = true;
   }
+  return {highPolygonMode: urlParams.has("highpolygon")};
 }
