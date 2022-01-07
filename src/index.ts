@@ -6,7 +6,13 @@ import { GUI } from './gui';
 import { Clouds } from './clouds/Clouds';
 import { Atmosphere } from './atmosphere/Atmosphere';
 import { Sun } from './sun/Sun';
-import { activeConfig, configAsJSON, presets, loadPreset } from './config';
+import {
+  activeConfig,
+  configAsJSON,
+  presets,
+  loadPreset,
+  hiddenPresets,
+} from './config';
 
 // So i can use in iframes in presentation
 // and to help when developing
@@ -14,7 +20,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const presetStr = urlParams.get('preset');
 if (presetStr) {
-  const preset = presets.get(presetStr);
+  const preset = presets.get(presetStr) || hiddenPresets.get(presetStr);
   if (preset) loadPreset(preset);
 }
 if (urlParams.has('nogui')) {

@@ -347,3 +347,36 @@ presets.set('Bo:ld 3', {
   },
   camera: { autoRotate: false },
 });
+
+// ==== My somewhat secret presets ====
+export const hiddenPresets = new Map<string, PartialConfig>();
+
+hiddenPresets.set('ridge-test-1', {
+  terrain: {
+    offsetScale: 0.3,
+    numOctaves: 8,
+    lacunarity: 1.48,
+    persistance: 0.418,
+    baseFreq: 1.2,
+    exponent: 3,
+    wireframe: false,
+    absInvert: true,
+    snowColor: '#ffffff',
+    mountainColor: '#808080',
+    landColor: '#94C245',
+    sandColor: '#ECECAB',
+  },
+  atmosphere: { opacity: 0.5, fresnel: 3, wireframe: false, color: '#1f75ff' },
+  clouds: { amount: 0.5, opacity: 1, height: 1.1, smoothness: 0.5, warp: 0.13 },
+  water: {
+    height: 1.035,
+    wavesIntensity: 0.002,
+    wavesSize: 120,
+    wavesSpeed: 3,
+    opacity: 0.7,
+    color: '#318FD7',
+    useFresnel: true,
+    useTrochoidalWaves: false,
+  },
+  camera: { autoRotate: false },
+});
