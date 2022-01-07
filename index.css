@@ -26,7 +26,6 @@ body {
 
 #side-panel-container {
   user-select: none;
-  padding: 2rem 0 3.5rem 2rem;
   position: fixed;
   height: 100vh;
   width: 20rem;
@@ -44,6 +43,7 @@ body {
 #side-panel {
   /* Hack scrollbar to left, mabye not ideal but to the right was incredibly ugly */
   direction: ltr;
+  padding: 2rem 0 3.5rem 2rem;
 }
 
 #scroll-reminder {
@@ -51,7 +51,7 @@ body {
 
   position: fixed;
   bottom: 0;
-  left: 17px;
+  left: 0px;
   width: 25rem;
   overflow-x: visible;
   padding: 3.5rem 0 1rem 2rem;
@@ -61,21 +61,9 @@ body {
     rgba(0, 0, 0, 0) 100%
   );
 
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    black 7%,
-    black 80%,
-    transparent
-  );
+  mask-image: linear-gradient(90deg, black, black 80%, transparent);
   mask-mode: alpha;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent,
-    black 7%,
-    black 80%,
-    transparent
-  );
+  -webkit-mask-image: linear-gradient(90deg, black, black 80%, transparent);
   -webkit-mask-mode: alpha;
 
   pointer-events: none;
@@ -147,7 +135,7 @@ a {
 }
 
 .preset-item:before {
-  content: '» ';
+  content: '\\ ';
 }
 
 .preset-item:hover {
