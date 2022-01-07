@@ -128,6 +128,12 @@ a {
   color: var(--accent);
 }
 
+ul {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+
 .preset-item {
   /* display: inline-block; */
   margin-right: 1rem;
