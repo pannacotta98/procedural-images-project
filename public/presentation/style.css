@@ -1,0 +1,15 @@
+:root {
+  --r-background-color: black;
+  --r-main-font: 'Orbitron', sans-serif;
+  --r-heading-font: 'Orbitron', sans-serif;
+  --r-heading-font-weight: 700;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  text-transform: none;
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/reset.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/theme/black.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/github-dark.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Procedural Planet Presentation</title>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- data-background-iframe="https://pannacotta98.github.io/procedural-images-project?nogui" -->
+        <section
+          data-background-image="./assets/pexels-nicole-avagliano-2706654.jpg"
+          data-background-opacity="0.3"
+        >
+          <h1>Procedural Planet</h1>
+          <br />
+          Algot Sandahl
+        </section>
+
+        <section
+          data-background-image="./assets/pexels-nicole-avagliano-2706654.jpg"
+          data-background-opacity="0.3"
+        >
+          <h2>Tech</h2>
+          <p>TypeScript</p>
+          <p>WebGL</p>
+          <p>Three.js</p>
+          <p>Snowpack</p>
+        </section>
+
+        <section
+          data-background-image="./assets/terrain.jpg"
+          data-background-opacity="0.3"
+        >
+          <h2>Terrain Generation</h2>
+        </section>
+
+        <section
+          data-background-image="./assets/terrain.jpg"
+          data-background-opacity="0.2"
+        >
+          <section>Geometry</section>
+          <section>
+            Sphere
+            <br />
+            <br />
+            <iframe
+              src="https://threejs.org/docs/scenes/geometry-browser.html#SphereGeometry"
+              frameborder="0"
+              width="1000"
+              height="500"
+            ></iframe>
+          </section>
+          <section>
+            Icosphere
+            <br />
+            <br />
+            <iframe
+              src="https://threejs.org/docs/scenes/geometry-browser.html#IcosahedronGeometry"
+              frameborder="0"
+              width="1000"
+              height="500"
+            ></iframe>
+          </section>
+        </section>
+
+        <section
+          data-background-image="./assets/terrain.jpg"
+          data-background-opacity="0.2"
+        >
+          <section>Displacement</section>
+          <section>
+            <pre>
+              <code data-line-numbers="1|2" class="language-glsl" data-trim data-noescape>
+for (int i = 0; i < numOctaves; ++i) {
+  something();
+}
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <section
+          data-background-image="./assets/terrain.jpg"
+          data-background-opacity="0.2"
+        >
+          <section>Texture</section>
+          <section>?</section>
+        </section>
+
+        <section
+          data-background-image="./assets/pexels-lisa-734973.jpg"
+          data-background-opacity="0.3"
+        >
+          <h2>Water</h2>
+        </section>
+
+        <section
+          data-background-image="./assets/pexels-nicole-avagliano-2706654.jpg"
+          data-background-opacity="0.3"
+        >
+          <h2>Stars</h2>
+          Smoothstepped simplex noise
+        </section>
+
+        <section>
+          <iframe
+            src="https://www.desmos.com/calculator/zukjgk9iry?lang=sv-SE"
+            width="1000"
+            height="500"
+            style="border: 1px solid #ccc"
+            frameborder="0"
+          ></iframe>
+        </section>
+
+        <section>
+          <iframe
+            src="https://threejs.org/docs/scenes/geometry-browser.html#IcosahedronGeometry"
+            frameborder="0"
+            width="1000"
+            height="500"
+          ></iframe>
+        </section>
+
+        <section
+          data-background-iframe="https://pannacotta98.github.io/procedural-images-project"
+          data-background-interactive
+        ></section>
+
+        <section
+          data-background-image="./assets/pexels-nicole-avagliano-2706654.jpg"
+          data-background-opacity="0.3"
+        >
+          <h2>Some Sort of Conclusion</h2>
+          <aside class="notes">
+            It would certainly be fun to add even more customizability, but at
+            some point it starts becoming an engine rather than a course
+            project.
+          </aside>
+        </section>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/plugin/highlight/highlight.min.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        plugins: [RevealHighlight],
+        // Learn about plugins: https://revealjs.com/plugins/
+        // plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
