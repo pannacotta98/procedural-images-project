@@ -3,6 +3,7 @@ uniform float opacity;
 uniform float amount;
 uniform float warp;
 uniform float smoothness;
+uniform vec3 color;
 
 in vec3 outPosition;
 in vec3 outNormal;
@@ -42,7 +43,6 @@ void main() {
     noise += amp * psrdnoise(scale * v + warp * gradientSum, period, scale * alpha, gradient);
     gradientSum += amp * gradient;
     maxOffset += amp;
-    // amp *= 0.5;
     amp *= mix(0.9, 0.1, smoothness);
     scale *= 2.0;
   }
@@ -53,5 +53,5 @@ void main() {
 
   float a = opacity * transition;
 
-  gl_FragColor = vec4(diffuse(outNormal), a);
+  gl_FragColor = vec4(color * diffuse(outNormal), a);
 }

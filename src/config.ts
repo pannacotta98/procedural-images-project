@@ -28,6 +28,7 @@ const defaultConfig = {
     height: 1.1,
     smoothness: 0.5,
     warp: 0.13,
+    color: '#ffffff',
   },
   water: {
     height: 1.035,
@@ -96,6 +97,7 @@ export const configMetaData: ConfigMetaData = {
     height: new ConfigFloatValMeta(0.9, 1.3, 'Height'),
     smoothness: new ConfigFloatValMeta(0, 1, 'Smoothness'),
     warp: new ConfigFloatValMeta(0.0, 1.0, 'Warp'),
+    color: new ConfigColorValMeta('Color'),
   },
   water: {
     height: new ConfigFloatValMeta(0.98, 1.1, 'Water level'),
@@ -306,6 +308,47 @@ presets.set('Zerp 3—8', {
     wavesSpeed: 5.4,
     opacity: 0.8,
     color: '#35d733',
+    useFresnel: true,
+    useTrochoidalWaves: false,
+  },
+  camera: { autoRotate: false },
+});
+
+presets.set('Tinia', {
+  terrain: {
+    offsetScale: 0.53047,
+    numOctaves: 10,
+    lacunarity: 2.373,
+    persistance: 0.508,
+    baseFreq: 1.305,
+    exponent: 4.501,
+    wireframe: false,
+    absInvert: false,
+    snowColor: '#5c91b2',
+    mountainColor: '#36679b',
+    landColor: '#48562e',
+    sandColor: '#c3c34b',
+  },
+  atmosphere: {
+    opacity: 0.5,
+    fresnel: 4.4,
+    wireframe: false,
+    color: '#262108',
+  },
+  clouds: {
+    amount: 0.61,
+    opacity: 1,
+    height: 1.076,
+    smoothness: 0.22,
+    warp: 0.17,
+  },
+  water: {
+    height: 1.0316,
+    wavesIntensity: 0.00164,
+    wavesSize: 174.3,
+    wavesSpeed: 5.4,
+    opacity: 0.8,
+    color: '#836234',
     useFresnel: true,
     useTrochoidalWaves: false,
   },
