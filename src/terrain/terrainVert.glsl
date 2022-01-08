@@ -14,6 +14,10 @@ out vec3 localPos;
 
 #pragma glslify: snoise = require(./../commonShader/noise3D)
 
+float smoothAbs(float x, float k) {
+  return x * exp(k * x) / (exp(k * x) + exp(-k * x)) - x * exp(-k * x) / (exp(k * x) + exp(-k * x));
+}
+
 float sampleHeight(vec3 pos) {
   float heightOffset = 0.0;
   float amp = 1.0;
@@ -21,7 +25,7 @@ float sampleHeight(vec3 pos) {
   float normalizeFactor = 0.0;
   for(int i = 0; i < numOctaves; ++i) {
     if(absInvert) {
-      heightOffset += amp * (1.0 - abs(snoise(freq * pos)));
+      heightOffset += amp * (1.0 - smoothAbs(snoise(freq * pos), 10.0));
     } else {
       float noise = 0.5 + 0.5 * snoise(freq * pos);
       heightOffset += amp * noise;
@@ -37,11 +41,13 @@ float sampleHeight(vec3 pos) {
 void main() {
   radialOffset = sampleHeight(position);
 
+  vec3 n = normalize(position);
+
   // Sample height near the point to calculate gradient using
   // the triangle method
   float offsetLength = 0.001;
-  vec3 tangent1 = normalize(cross(normal, vec3(1.0, 0.0, 0.01)));
-  vec3 tangent2 = normalize(cross(tangent1, normal));
+  vec3 tangent1 = normalize(cross(n, vec3(1.0, 0.0, 0.01)));
+  vec3 tangent2 = normalize(cross(tangent1, n));
   vec3 tangent3 = normalize(-(tangent1 + tangent2));
   vec3 p1 = normalize(position + tangent1 * offsetLength);
   vec3 p2 = normalize(position + tangent2 * offsetLength);
@@ -51,9 +57,9 @@ void main() {
   vec3 s3 = (1.0 + sampleHeight(p3)) * p3;
   vec3 v1 = s1 - s3;
   vec3 v2 = s2 - s3;
-  outNormal = normalMatrix * normalize(-cross(v1, v2));
+  outNormal = normalMatrix * normalize(cross(v2, v1));
 
   localPos = position;
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * normal, 1.0);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position + radialOffset * n, 1.0);
 }

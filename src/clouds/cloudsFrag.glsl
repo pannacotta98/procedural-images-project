@@ -1,5 +1,9 @@
 uniform float time;
 uniform float opacity;
+uniform float amount;
+uniform float warp;
+uniform float smoothness;
+uniform vec3 color;
 
 in vec3 outPosition;
 in vec3 outNormal;
@@ -25,31 +29,29 @@ vec3 diffuse(vec3 normal) {
 void main() {
   // https://stegu.github.io/psrdnoise/3d-tutorial/3d-psrdnoise-tutorial-04.html
   vec3 v = 2.0 * vec3(outPosition);
-  // vec3 v = 2.0 * vec3(outPosition) + time * vec3(0.02);
-  // vec3 v = 4.0 * vec3(outPosition);
   vec3 period = vec3(0.0);
   vec3 gradient;
   vec3 gradientSum = vec3(0.0);
   float alpha = 0.1 * time;
   float amp = 1.0;
-  float s = 0.7;
-  float n = 0.0;
+  float scale = 0.7;
+  float noise = 0.0;
+
+  float maxOffset = 0.0;
 
   for(float i = 0.0; i < 7.0; i++) {
-    n += amp * psrdnoise(s * v + 0.13 * gradientSum, period, s * alpha, gradient);
-    // n += amp * psrdnoise(s * v + 0.20 * gradientSum, period, s * alpha, gradient);
+    noise += amp * psrdnoise(scale * v + warp * gradientSum, period, scale * alpha, gradient);
     gradientSum += amp * gradient;
-    amp *= 0.5;
-    s *= 2.0;
+    maxOffset += amp;
+    amp *= mix(0.9, 0.1, smoothness);
+    scale *= 2.0;
   }
 
-  // vec3 mixcolor = vec3(0.5 + 0.4 * n);
-  // gl_FragColor = vec4(mixcolor, 0.4);
+  float offsetFromMax = 0.4;
+  float minEdge = mix(maxOffset - 0.001 - offsetFromMax, -maxOffset, amount);
+  float transition = smoothstep(minEdge, maxOffset - offsetFromMax, noise);
 
-  vec3 mixcolor = vec3(1.0) * clamp(1.1 * diffuse(outNormal), 0.0, 1.0);
-  // vec3 mixcolor = vec3(1.0) * diffuse(outNormal);
-  gl_FragColor = vec4(mixcolor, opacity * smoothstep(-0.2, 1.0, n));
-  // gl_FragColor = vec4(mixcolor, 0.5 + 0.4 * n);
+  float a = opacity * transition;
 
-  // gl_FragColor = vec4(1.0, 0.0, 0.0, 0.2);
+  gl_FragColor = vec4(color * diffuse(outNormal), a);
 }

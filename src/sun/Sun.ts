@@ -20,8 +20,8 @@ export class Sun implements SceneObject {
 
     lensflare.addElement(new LensflareElement(textureFlare0, 512, 0));
     lensflare.addElement(new LensflareElement(textureFlare1, 512, 0));
-    lensflare.addElement(new LensflareElement(textureFlare2, 60, 0.6));
-    lensflare.addElement(new LensflareElement(textureFlare2, 60, 0.9));
+    lensflare.addElement(new LensflareElement(textureFlare2, 60, 0.5));
+    lensflare.addElement(new LensflareElement(textureFlare2, 60, 0.8));
 
     this.object3D = lensflare;
     this.object3D.position.set(0, 0, 100);

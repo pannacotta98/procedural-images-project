@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Web site created using create-snowpack-app"
+      content="A planet procedurally generated in real time."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,6 +16,23 @@
     />
     <link rel="stylesheet" type="text/css" href="reset.css" />
     <link rel="stylesheet" type="text/css" href="index.css" />
+
+    <!-- Social media meta stuff -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Procedural Planet" />
+    <meta
+      name="twitter:image"
+      content="https://pannacotta98.github.io/procedural-planet/banner-img.png"
+    />
+    <meta name="twitter:image:alt" content="Generated planet" />
+
+    <meta property="og:title" content="Procedural Planet" />
+    <meta
+      property="og:image"
+      content="https://pannacotta98.github.io/procedural-planet/banner-img.png"
+    />
+    <meta property="og:image:alt" content="Procedural Planet" />
+
     <title>Procedural Planet</title>
   </head>
   <body>
@@ -26,17 +43,16 @@
         <p>
           This planet is generated in real time using simplex noise. The source
           code is available
-          <a href="https://github.com/pannacotta98/procedural-images-project"
-            >here</a
-          >.
+          <a href="https://github.com/pannacotta98/procedural-planet">here</a>.
+        </p>
+        <p>
+          Have a beefy computer? You might wanna try the
+          <a href="./?highpolygon">high polygon mode</a>.
         </p>
 
-        <!-- <details>
-          <summary>
-            <h2>Presets</h2>
-          </summary>
-          <section id="preset-settings"></section>
-        </details> -->
+        <section id="camera-settings">
+          <h2>Camera</h2>
+        </section>
 
         <section id="preset-settings">
           <h2>Presets</h2>
@@ -57,14 +73,13 @@
         <section id="clouds-settings">
           <h2>Clouds</h2>
         </section>
-
-        <section id="camera-settings">
-          <h2>Camera</h2>
-        </section>
+      </div>
+      <div id="scroll-reminder">
+        <span> Scroll for more options </span>
       </div>
     </div>
 
-    <div class="loading-screen">
+    <div id="loading-screen" class="loading-screen">
       <h2>Loading...</h2>
     </div>
 

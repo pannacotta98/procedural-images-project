@@ -25,21 +25,34 @@ export class Water implements SceneObject {
           resolution: { value: new Vector2() }, // TODO fix
           heightOffsetScale: { value: 0.03 },
           color: { value: new Color() },
+          wavesIntensity: { value: 0 },
+          wavesSize: { value: 0 },
+          wavesSpeed: { value: 0.0 },
+          useFresnel: { value: true },
+          useTrochoidalWaves: { value: false },
+          opacity: { value: 0.0 },
         },
       ]),
       vertexShader: vert,
       fragmentShader: frag,
       transparent: true,
-      opacity: 0.5,
       lights: true,
       // wireframe: true,
     });
-    const geometry = new IcosahedronGeometry(1, 20);
+    const geometry = new IcosahedronGeometry(1, 150);
     this.object3D = new Mesh(geometry, this.material);
   }
 
   update(time: number) {
-    this.material.uniforms.time.value = activeConfig.water.height;
+    this.material.uniforms.useTrochoidalWaves.value =
+      activeConfig.water.useTrochoidalWaves;
+    this.material.uniforms.wavesSpeed.value = activeConfig.water.wavesSpeed;
+    this.material.uniforms.opacity.value = activeConfig.water.opacity;
+    this.material.uniforms.useFresnel.value = activeConfig.water.useFresnel;
+    this.material.uniforms.time.value = time;
+    this.material.uniforms.wavesIntensity.value =
+      activeConfig.water.wavesIntensity;
+    this.material.uniforms.wavesSize.value = activeConfig.water.wavesSize;
     this.material.uniforms.color.value.set(activeConfig.water.color);
     this.object3D.scale.set(
       activeConfig.water.height,

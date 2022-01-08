@@ -1,12 +1,15 @@
-# TNM084 Project
+![Procedural Planet](public/banner-img.png)
 
-GLSL Noise functions are borrowed from https://github.com/stegu/webgl-noise
+## [Try it here!](https://pannacotta98.github.io/procedural-planet/)
 
-> ✨ Bootstrapped with Create Snowpack App (CSA).
+Real time procedural generation of miniature planets.
+Created with noise functions from [stegu/webgl-noise](https://github.com/stegu/webgl-noise) and [stegu/psrdnoise](https://github.com/stegu/psrdnoise).
 
-## Available Scripts
+## Development
 
-### npm start
+Bootstrapped with Create Snowpack App (CSA).
+
+### `npm start`
 
 Runs the app in the development mode.
 Open http://localhost:8080 to view it in the browser.
@@ -14,7 +17,7 @@ Open http://localhost:8080 to view it in the browser.
 The page will reload if you make edits.
 You will also see any lint errors in the console.
 
-### npm run build
+### `npm run build`
 
 Builds a static copy of your site to the `build/` folder.
 Your app is ready to be deployed!
