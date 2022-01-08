@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<!--
+.
+.
+.    Note that this is probably not in a proper state right now
+.
+.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/reveal.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/reset.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/theme/black.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/github-dark.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Procedural Planet Presentation</title>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- data-background-iframe="https://pannacotta98.github.io/procedural-images-project?nogui" -->
+        <section data-background-image="./assets/pexels-nicole-avagliano-2706654.jpg" data-background-opacity="0.3">
+          <h1>Procedural Planet</h1>
+          <br />
+          Algot Sandahl
+
+          <p>NOTE: This version is not quite finished</p>
+        </section>
+
+        <section data-background-image="./assets/pexels-nicole-avagliano-2706654.jpg" data-background-opacity="0.3">
+          <h2>Tech</h2>
+          <p>TypeScript</p>
+          <p>Three.js</p>
+          <!-- <p>WebGL</p> -->
+          <!-- <p>Snowpack</p> -->
+        </section>
+
+        <!-- ==== Stars ==== -->
+        <section data-background-image="./assets/pexels-nicole-avagliano-2706654.jpg" data-background-opacity="0.3">
+          <h2>Stars</h2>
+          Smoothstepped simplex noise
+          <div class="r-stack">
+            <img src="./assets/stars-only-simplex.png" alt="" width="500" />
+            <img class="fragment" src="./assets/stars.png" alt="" width="500" />
+          </div>
+        </section>
+
+        <!-- ==== Terrain ====  -->
+        <section data-background-image="./assets/terrain.jpg" data-background-opacity="0.3">
+          <h2>Terrain Generation</h2>
+        </section>
+
+        <section data-background-image="./assets/terrain.jpg" data-background-opacity="0.2">
+          <section>Geometry</section>
+          <section>
+            <p>UV sphere</p>
+            <iframe
+              src="https://threejs.org/docs/scenes/geometry-browser.html#SphereGeometry"
+              frameborder="0"
+              width="1000"
+              height="500"
+            ></iframe>
+          </section>
+          <section>
+            <p>Icosphere</p>
+            <iframe
+              src="https://threejs.org/docs/scenes/geometry-browser.html#IcosahedronGeometry"
+              frameborder="0"
+              width="1000"
+              height="500"
+            ></iframe>
+          </section>
+        </section>
+
+        <section data-background-image="./assets/terrain.jpg" data-background-opacity="0.2">
+          <section>Displacement</section>
+          <section data-auto-animate>
+            <p>Layered simplex noise</p>
+            <pre data-id="displacement-code">
+              <code data-line-numbers="1|2,7|3-4|5-6" class="language-glsl" data-trim data-noescape>
+float heightOffset = 0.0;
+for(int i = 0; i &lt; numOctaves; ++i) {
+  float noise = 0.5 + 0.5 * snoise(freq * pos);
+  heightOffset += amp * noise;
+  amp *= persistance; // Usually ≈ 0.5
+  freq *= lacunarity; // Usually ≈ 2.0
+}
+              </code>
+            </pre>
+          </section>
+          <section data-auto-animate>
+            <pre data-id="displacement-code">
+              <code data-line-numbers="2,6,10" class="language-glsl" data-trim data-noescape>
+float heightOffset = 0.0;
+float normalizeFactor = 0.0;
+for(int i = 0; i &lt; numOctaves; ++i) {
+  float noise = 0.5 + 0.5 * snoise(freq * pos);
+  heightOffset += amp * noise;
+  normalizeFactor += amp;
+  amp *= persistance; // Usually ≈ 0.5
+  freq *= lacunarity; // Usually ≈ 2.0
+}
+heightOffset /= normalizeFactor;
+              </code>
+            </pre>
+          </section>
+
+          <section
+            data-background-color="black"
+            data-background-iframe="https://pannacotta98.github.io/procedural-planet?preset=presentation-terrain-no-exp"
+            data-background-interactive
+          ></section>
+
+          <section data-auto-animate>
+            <p>How do we get flatter fields and steeper mountains?</p>
+          </section>
+
+          <section data-auto-animate>
+            <p>How do we get flatter fields and steeper mountains?</p>
+            <iframe src="https://www.desmos.com/calculator/pknwk2m1i5" frameborder="0" width="1000" height="500"></iframe>
+          </section>
+
+          <section
+            data-background-color="black"
+            data-background-iframe="https://pannacotta98.github.io/procedural-planet?preset=presentation-terrain-no-exp"
+            data-background-interactive
+          ></section>
+        </section>
+
+        <section data-background-image="./assets/terrain.jpg" data-background-opacity="0.2">
+          <section>Texture</section>
+          <section>
+            <img src="./assets/planet-only-land.png" alt="" width="400" />
+          </section>
+        </section>
+
+        <!-- ==== Water ==== -->
+        <section data-background-image="./assets/pexels-lisa-734973.jpg" data-background-opacity="0.3">
+          <section data-auto-animate>
+            <h2>Water</h2>
+          </section>
+
+          <section data-auto-animate>
+            <h2>Water</h2>
+            <p class="fragment strike">Refraction</p>
+            <p class="fragment strike">Reflection</p>
+            <p>The Fresnel effect</p>
+            <p>Waves</p>
+          </section>
+
+          <section data-auto-animate>
+            <h2>Water</h2>
+            <p>The Fresnel effect</p>
+            <p>Schlick&apos;s approximation:</p>
+            <div class="smaller-math">
+              <!-- prettier-ignore -->
+              \[R = R_0 + (1 - R_0) (1 - \mathbf N \cdot \mathbf V)^5\]
+                \[R_0 = \left(\frac{n_1-n_2}{n_1+n_2} \right)^2\]
+            </div>
+          </section>
+
+          <section data-auto-animate>
+            <h2>Water</h2>
+            <p>Two types of waves:</p>
+            <p>Spherical trochoidal waves</p>
+            <p>Psrd noise bump map</p>
+          </section>
+        </section>
+
+        <section data-auto-animate>
+          <section data-background-image="./assets/pexels-lisa-734973.jpg" data-background-opacity="0.3" data-auto-animate>
+            <p>Spherical trochoidal waves</p>
+            <p><small>But first normal trochoidal waves in 2D</small></p>
+            <video data-autoplay loop width="700" src="./assets/troch-waves.mp4"></video>
+            <p>
+              <small>
+                Visualization by
+                <a href="https://twitter.com/FreyaHolmer/status/1236079824575369219">@FreyaHolmer</a>
+                on twitter
+              </small>
+            </p>
+          </section>
+
+          <section data-background-image="./assets/pexels-lisa-734973.jpg" data-background-opacity="0.3" data-auto-animate>
+            <p>Spherical trochoidal waves</p>
+            <p><small>But first normal trochoidal waves in 2D</small></p>
+            <video data-autoplay loop src="./assets/troch-waves-spiky.mp4" width="700"></video>
+            <p>
+              <small>
+                Visualization by
+                <a href="https://twitter.com/FreyaHolmer/status/1236079824575369219">@FreyaHolmer</a>
+                on twitter
+              </small>
+            </p>
+          </section>
+
+          <section data-background-image="./assets/pexels-lisa-734973.jpg" data-background-opacity="0.3" data-auto-animate>
+            <p>Spherical trochoidal waves</p>
+            <p>
+              <small>
+                Adapted to spheres by Florian Michelic in &ldquo;Real-Time Rendering of Procedurally Generated Planets&rdquo;
+              </small>
+            </p>
+            <img class="fragment" src="./assets/spherical-troch-origin.png" width="400" alt="" />
+          </section>
+
+          <section
+            data-background-color="black"
+            data-background-iframe="https://pannacotta98.github.io/procedural-planet?nogui&preset=presentation-troch-waves-big"
+            data-background-interactive
+          ></section>
+          <section
+            data-background-color="black"
+            data-background-iframe="https://pannacotta98.github.io/procedural-planet?nogui&preset=preset=presentation-troch-waves-with-land"
+            data-background-interactive
+          ></section>
+        </section>
+
+        <section>
+          <section data-background-image="./assets/pexels-lisa-734973.jpg" data-background-opacity="0.3">
+            <p>Psrd noise bump map</p>
+            <small>Noise by Stefan Gustavson and Ian McEwan</small>
+            <pre>
+              <code data-line-numbers="2-5|7-8|9" class="language-glsl" data-trim data-noescape>
+              vec3 gradient = vec3(0.0);
+              psrdnoise(pos * freqScale,   // Frequency
+                        vec3(0.0),         // Period
+                        wavesSpeed * time, // Gradient rotation
+                        gradient);         // Gradient out parameter
+  
+              // Project gradient onto tangent plane
+              vec3 proj = gradient - dot(gradient, n) * n;
+              vec3 finalNormal = normalize(n - bumpAmount * proj);
+              </code>
+            </pre>
+          </section>
+          <section
+            data-background-color="black"
+            data-background-iframe="https://pannacotta98.github.io/procedural-planet?nogui&preset=presentation-calm-waves"
+            data-background-interactive
+          ></section>
+        </section>
+
+        <!-- ==== Clouds ==== -->
+        <section>
+          <section data-auto-animate data-background-image="./assets/clouds-photo.jpg" data-background-opacity="0.3">
+            <h2>Clouds</h2>
+          </section>
+
+          <section data-auto-animate data-background-image="./assets/clouds-photo.jpg" data-background-opacity="0.3">
+            <h2>Clouds</h2>
+            <p>Flow noise on sphere surface</p>
+            <pre>
+              <code data-line-numbers="|6,11" class="language-glsl" data-trim data-noescape>
+                vec3 gradientSum = vec3(0.0), gradient = vec3(0.0);
+                float noise = 0;
+
+                for(float i = 0.0; i < 7.0; i++) {
+                  noise += amp * psrdnoise(
+                      scale * v + warp * gradientSum, // Frequency
+                      period,                         // Period
+                      scale * 0.1 * time,             // Gradient rotation 
+                      gradient);                      // Gradient out param
+
+                  gradientSum += amp * gradient;
+                  amp *= mix(0.9, 0.1, smoothness); // uniform
+                  scale *= 2.0;
+                }
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <!-- ==== Atmosphere ==== -->
+        <section>
+          <section data-auto-animate data-background-image="./assets/atmosphere-photo.jpg" data-background-opacity="0.3">
+            <h2>Atmosphere</h2>
+            <p>A complicated process</p>
+            <p class="fragment">...that I once again replace with crude approximations</p>
+          </section>
+
+          <section data-auto-animate data-background-image="./assets/atmosphere-photo.jpg" data-background-opacity="0.3">
+            <h2>Atmosphere</h2>
+            <p>Simplified Fresnel term \[\alpha = \left( 1 - \vec V \cdot \vec N \right)^a\]</p>
+          </section>
+
+          <section data-auto-animate data-background-image="./assets/atmosphere-photo.jpg" data-background-opacity="0.3">
+            <h2>Atmosphere</h2>
+            <p>Wrapped diffuse</p>
+            <div class="r-stack">
+              <img class="fragment fade-out" data-fragment-index="0" src="./assets/diffuse-wrap-presentation-img.png" alt="" />
+              <p class="fragment" data-fragment-index="0">
+                \[ I_d = \max\!\left(0, \, \frac{(\vec L \cdot \vec N) + w}{1 + w}\right)\]
+              </p>
+            </div>
+          </section>
+        </section>
+
+        <!-- ==== Demo ==== -->
+        <section
+          data-background-color="black"
+          data-background-iframe="https://pannacotta98.github.io/procedural-planet"
+          data-background-interactive
+        ></section>
+
+        <!-- ==== Conclusion ==== -->
+        <section data-background-image="./assets/end-background.png" data-background-opacity="0.5">
+          <h2>Some Sort of Conclusion</h2>
+          <aside class="notes">
+            It would certainly be fun to add even more customizability, but at some point it starts becoming an engine rather than
+            a course project.
+          </aside>
+        </section>
+
+        <section data-background-image="./assets/end-background.png" data-background-opacity="1">
+          <h2>
+            Thanks for <br />
+            listening (ᵔᴥᵔ)
+          </h2>
+          <aside class="notes">
+            It would certainly be fun to add even more customizability, but at some point it starts becoming an engine rather than
+            a course project.
+          </aside>
+        </section>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/plugin/highlight/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.1/plugin/math/math.min.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        plugins: [RevealHighlight, RevealMath.KaTeX],
+        // Learn about plugins: https://revealjs.com/plugins/
+        // plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>

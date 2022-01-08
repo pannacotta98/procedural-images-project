@@ -497,6 +497,7 @@ hiddenPresets.set('presentation-troch-waves-big', {
   },
   camera: { autoRotate: false },
 });
+
 hiddenPresets.set('presentation-troch-waves-with-land', {
   terrain: {
     offsetScale: 0.26074,
@@ -532,4 +533,45 @@ hiddenPresets.set('presentation-troch-waves-with-land', {
     useTrochoidalWaves: true,
   },
   camera: { autoRotate: false },
+});
+
+hiddenPresets.set('presentation-calm-waves', {
+  terrain: {
+    offsetScale: 0.22,
+    numOctaves: 8,
+    lacunarity: 2,
+    persistance: 0.5,
+    baseFreq: 1.2,
+    exponent: 3,
+    wireframe: false,
+    absInvert: false,
+    snowColor: '#ffffff',
+    mountainColor: '#808080',
+    landColor: '#94C245',
+    sandColor: '#ECECAB',
+  },
+  atmosphere: { opacity: 0, fresnel: 0, wireframe: false, color: '#1f75ff' },
+  clouds: {
+    amount: 0,
+    opacity: 0,
+    height: 1.1,
+    smoothness: 0.5,
+    warp: 0.13,
+    color: '#ffffff',
+  },
+  water: {
+    height: 1.035,
+    wavesIntensity: 0.002,
+    wavesSize: 120,
+    wavesSpeed: 3,
+    opacity: 0.7,
+    color: '#318FD7',
+    useFresnel: true,
+    useTrochoidalWaves: false,
+  },
+  camera: { autoRotate: false },
+});
+
+hiddenPresets.set('presentation-clouds', {
+  atmosphere: { opacity: 0 },
 });

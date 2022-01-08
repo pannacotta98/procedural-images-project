@@ -58,7 +58,7 @@ void main() {
     float freqScale = wavesSize / 11.8;
     float displaceAmount = 10.0 * wavesIntensity;
     vec3 gradient = vec3(0.0);
-    psrdnoise(vertWorldPos * freqScale, vec3(10.0), wavesSpeed * time, gradient);
+    psrdnoise(vertWorldPos * freqScale, vec3(0.0), wavesSpeed * time, gradient);
 
     vec3 gradientProjOnTangentPlane = gradient - dot(gradient, outNormal) * outNormal;
     finalNormal = normalize(outNormal - displaceAmount * gradientProjOnTangentPlane);

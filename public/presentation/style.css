@@ -3,6 +3,7 @@
   --r-main-font: 'Orbitron', sans-serif;
   --r-heading-font: 'Orbitron', sans-serif;
   --r-heading-font-weight: 700;
+  color-scheme: dark;
 }
 
 .reveal h1,
