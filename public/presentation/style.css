@@ -6,6 +6,10 @@
   color-scheme: dark;
 }
 
+body {
+  background-color: black;
+}
+
 .reveal h1,
 .reveal h2,
 .reveal h3,
