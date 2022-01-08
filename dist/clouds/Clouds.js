@@ -1,4 +1,5 @@
 import {
+  Color,
   DoubleSide,
   IcosahedronGeometry,
   Mesh,
@@ -22,7 +23,8 @@ export class Clouds {
           height: {value: activeConfig.clouds.height},
           amount: {value: 0},
           warp: {value: 0},
-          smoothness: {value: 0}
+          smoothness: {value: 0},
+          color: {value: new Color()}
         }
       ]),
       vertexShader: vert,
@@ -41,6 +43,7 @@ export class Clouds {
     this.material.uniforms.amount.value = activeConfig.clouds.amount;
     this.material.uniforms.warp.value = activeConfig.clouds.warp;
     this.material.uniforms.smoothness.value = activeConfig.clouds.smoothness;
+    this.material.uniforms.color.value.set(activeConfig.clouds.color);
     this.object3D.rotation.y = -0.02 * time;
   }
 }
