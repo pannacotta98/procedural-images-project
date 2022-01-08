@@ -13,3 +13,7 @@
 .reveal h6 {
   text-transform: none;
 }
+
+.smaller-math {
+  font-size: 70%;
+}
