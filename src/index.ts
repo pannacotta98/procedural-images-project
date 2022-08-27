@@ -12,6 +12,7 @@ import {
   presets,
   loadPreset,
   hiddenPresets,
+  randomizeConfig,
 } from './config';
 
 const { highPolygonMode } = readUrlParams();
@@ -41,8 +42,7 @@ new GUI();
 const sidePanel = document.getElementById('side-panel-container')!;
 sidePanel.onscroll = () => {
   const scrollReminder = document.getElementById('scroll-reminder')!;
-  const isAtBottom =
-    sidePanel.scrollTop === sidePanel.scrollHeight - sidePanel.clientHeight;
+  const isAtBottom = sidePanel.scrollTop === sidePanel.scrollHeight - sidePanel.clientHeight;
   scrollReminder.style.opacity = isAtBottom ? '0' : '1';
 };
 
@@ -51,11 +51,8 @@ document.getElementById('loading-screen')!.style.opacity = '0';
 
 // Move scroll reminder to the right of scrollbar
 const child = document.getElementById('side-panel')!;
-const scrollbarWidth =
-  (child.parentNode as HTMLElement).offsetWidth - child.offsetWidth;
-console.log(child.style.padding);
-document.getElementById('scroll-reminder')!.style.left =
-  scrollbarWidth.toString() + 'px';
+const scrollbarWidth = (child.parentNode as HTMLElement).offsetWidth - child.offsetWidth;
+document.getElementById('scroll-reminder')!.style.left = scrollbarWidth.toString() + 'px';
 
 function readUrlParams() {
   // So i can use in iframes in presentation
@@ -68,10 +65,10 @@ function readUrlParams() {
     if (preset) loadPreset(preset);
   }
   if (urlParams.has('nogui')) {
-    (
-      document.getElementById('side-panel-container') as HTMLElement
-    ).style.display = 'none';
+    (document.getElementById('side-panel-container') as HTMLElement).style.display = 'none';
     activeConfig.camera.autoRotate = true;
   }
   return { highPolygonMode: urlParams.has('highpolygon') };
 }
+
+randomizeConfig();

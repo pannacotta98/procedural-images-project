@@ -1,5 +1,5 @@
-import type { DeepPartial } from './util';
-import { merge } from 'lodash';
+import { DeepPartial, randDist } from './util';
+import { merge, random } from 'lodash';
 
 const defaultConfig = {
   terrain: {
@@ -50,35 +50,61 @@ type PartialConfig = DeepPartial<Config>;
 
 export interface ConfigMetaValueType {
   label: string;
+  randomValue: () => any;
 }
 export class ConfigIntValMeta implements ConfigMetaValueType {
-  constructor(public min: number, public max: number, public label: string) {}
+  constructor(
+    public min: number,
+    public max: number,
+    public label: string,
+    public skewFactor: number = 1,
+  ) {}
+  randomValue() {
+    return Math.round(randDist(this.min, this.max, this.skewFactor));
+  }
 }
 export class ConfigFloatValMeta implements ConfigMetaValueType {
-  constructor(public min: number, public max: number, public label: string) {}
+  constructor(
+    public min: number,
+    public max: number,
+    public label: string,
+    public skewFactor: number = 1,
+  ) {}
+  randomValue() {
+    return randDist(this.min, this.max, this.skewFactor);
+  }
 }
 export class ConfigBoolValMeta implements ConfigMetaValueType {
-  constructor(public label: string) {}
+  constructor(public label: string, public probability: number = 0.5) {}
+  randomValue() {
+    return random(0, 1, true) < this.probability;
+  }
 }
 export class ConfigColorValMeta implements ConfigMetaValueType {
   constructor(public label: string) {}
+  randomValue() {
+    // https://css-tricks.com/snippets/javascript/random-hex-color/
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  }
 }
 export type ConfigMetaData = {
   [Category in keyof Config]: {
     [Property in keyof Config[Category]]: Config[Category][Property] extends number
       ? ConfigIntValMeta | ConfigFloatValMeta
-      : ConfigBoolValMeta;
+      : Config[Category][Property] extends boolean
+      ? ConfigBoolValMeta
+      : ConfigColorValMeta;
   };
 };
 export const configMetaData: ConfigMetaData = {
   terrain: {
-    offsetScale: new ConfigFloatValMeta(0.001, 1.0, 'Offset scale'),
+    offsetScale: new ConfigFloatValMeta(0.001, 1.0, 'Offset scale', 2.4),
     numOctaves: new ConfigIntValMeta(1, 10, 'Number of octaves'),
     lacunarity: new ConfigFloatValMeta(1.1, 3, 'Lacunarity'),
-    persistance: new ConfigFloatValMeta(0.1, 0.7, 'Persistence'),
+    persistance: new ConfigFloatValMeta(0.1, 0.7, 'Persistence', 1.2),
     baseFreq: new ConfigFloatValMeta(0.5, 4, 'Fundamental frequency'),
     exponent: new ConfigFloatValMeta(0.01, 5, 'Exponent'),
-    wireframe: new ConfigBoolValMeta('Wireframe'),
+    wireframe: new ConfigBoolValMeta('Wireframe', 0),
     absInvert: new ConfigBoolValMeta('Ridge mode'),
     snowColor: new ConfigColorValMeta('Snow color'),
     mountainColor: new ConfigColorValMeta('Mountains color'),
@@ -107,7 +133,7 @@ export const configMetaData: ConfigMetaData = {
     opacity: new ConfigFloatValMeta(0, 1, 'Opacity'),
     color: new ConfigColorValMeta('Color'),
     useFresnel: new ConfigBoolValMeta('Use Fresnel'),
-    useTrochoidalWaves: new ConfigBoolValMeta('Trochoidal waves'),
+    useTrochoidalWaves: new ConfigBoolValMeta('Trochoidal waves', 0.2),
   },
   camera: {
     autoRotate: new ConfigBoolValMeta('Auto-rotate'),
@@ -130,21 +156,21 @@ export function configAsJSON() {
   return JSON.stringify(activeConfig);
 }
 
+export function randomizeConfig() {
+  for (const [categoryName, categoryValues] of Object.entries(activeConfig)) {
+    for (let [key, value] of Object.entries(categoryValues)) {
+      // @ts-ignore cant be bothered to fix this properly rn
+      const metaData: ConfigMetaValueType = configMetaData[categoryName][key];
+      // @ts-ignore again...
+      categoryValues[key] = metaData.randomValue();
+    }
+  }
+}
+
 // ==== The presets ====
 export const presets = new Map<string, PartialConfig>();
 
 presets.set('Default', defaultConfig);
-
-// presets.set('Water debug', {
-//   terrain: { offsetScale: 0.0, numOctaves: 1, wireframe: false },
-//   atmosphere: { wireframe: false, opacity: 0 },
-//   clouds: { opacity: 0.0 },
-// });
-
-// presets.set('No clouds or atmosphere', {
-//   atmosphere: { opacity: 0 },
-//   clouds: { opacity: 0.0 },
-// });
 
 presets.set('Blurtarius', {
   terrain: {
